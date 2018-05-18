@@ -6,21 +6,21 @@
         "type": "chrome",
         "request": "launch",
         "url": "http://localhost:4200/#",
-        "webRoot": "${workspaceRoot}"
+        "webRoot": "${workspaceRoot}/students-frontend"
       },
       {
         "name": "Attach Chrome",
         "type": "chrome",
         "request": "attach",
         "url": "http://localhost:4200/#",
-        "webRoot": "${workspaceRoot}"
+        "webRoot": "${workspaceRoot}/students-frontend"
       },
       {
         "name": "Launch Chrome (Test)",
         "type": "chrome",
         "request": "launch",
         "url": "http://localhost:9876/debug.html",
-        "webRoot": "${workspaceRoot}"
+        "webRoot": "${workspaceRoot}/students-frontend"
       },
       {
         "name": "Launch Chrome (E2E)",
