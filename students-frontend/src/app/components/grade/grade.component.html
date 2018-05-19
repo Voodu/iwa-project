@@ -1,0 +1,7 @@
+<div class="gradebox text-center">
+    <button class="btn btn-danger" (click)="remove()">
+        <fa-icon icon="minus"></fa-icon>
+    </button>
+    <input type="number" step="0.5" min="2" max="5" [(ngModel)]="grade.grade" (ngModelChange)="onChange()" (keydown)="false">
+    <input type="number" step="0.1" min="0" [(ngModel)]="grade.weight" (ngModelChange)="onChange()" (keydown)="false">
+</div>

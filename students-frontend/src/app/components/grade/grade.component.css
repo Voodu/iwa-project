@@ -1,0 +1,16 @@
+.gradebox {
+    width: 50px;
+    padding: 4px;
+}
+
+input {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+button {
+    margin-bottom: 5px;
+    border-radius: 50%;
+}
