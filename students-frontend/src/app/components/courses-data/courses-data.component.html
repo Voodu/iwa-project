@@ -1,0 +1,14 @@
+<div class="course-info">
+    <div ngbDropdown class="p-2">
+        <button class="btn btn-secondary dropdown-toggle btn-block" ngbDropdownToggle>Course</button>
+        <div ngbDropdownMenu>
+            <button *ngFor="let course of student.courses" (click)=courseSelected(course) class="dropdown-item">{{course.name}}</button>
+        </div>
+    </div>
+    <button class="btn btn-success m-2" (click)="modal.open(student)">
+        Add Course
+    </button>
+</div>
+
+<app-grades-view [course]="selectedCourse" class="p-2 d-block" (gradeChange)="updateAvg()"></app-grades-view>
+<app-course-add #modal></app-course-add>

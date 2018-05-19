@@ -15,6 +15,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { AboutComponent } from './components/about/about.component';
 import { GradesViewComponent } from './components/grades-view/grades-view.component';
 import { CourseAddComponent } from './components/course-add/course-add.component';
+import { CoursesDataComponent } from './components/courses-data/courses-data.component';
 library.add(faMinus);
 library.add(faPlus);
 
@@ -31,7 +32,8 @@ const routes: Routes = [
         GradeComponent,
         AboutComponent,
         GradesViewComponent,
-        CourseAddComponent
+        CourseAddComponent,
+        CoursesDataComponent
     ],
     imports: [
         BrowserModule,
