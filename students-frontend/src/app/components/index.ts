@@ -5,3 +5,4 @@ export { CoursesDataComponent } from './courses-data/courses-data.component';
 export { GradeComponent } from './grade/grade.component';
 export { GradesViewComponent } from './grades-view/grades-view.component';
 export { HomeComponent } from './home/home.component';
+export { StudentsListComponent } from './students-list/students-list.component';

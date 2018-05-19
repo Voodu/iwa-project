@@ -1,7 +1,1 @@
-<div *ngFor="let student of students" class="d-flex flex-row">
-    <app-basic-student-data [student]="student" class="p-2 d-flex"></app-basic-student-data>
-    <button (click)="update(student)" class="btn btn-primary">Save changes</button>
-    <app-courses-data [student]="student" class="p-2 d-flex"></app-courses-data>
-</div>
-
-<app-course-add *ngIf="true"></app-course-add>
+<app-students-list></app-students-list>
