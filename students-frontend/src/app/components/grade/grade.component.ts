@@ -7,13 +7,12 @@ import { Grade } from '../../models';
     styleUrls: ['./grade.component.css']
 })
 export class GradeComponent implements OnInit {
-    @Output() gradeRemove: EventEmitter<any> = new EventEmitter<any>();
-    @Output() gradeChange: EventEmitter<any> = new EventEmitter<any>();
+    @Output() gradeRemove = new EventEmitter<any>();
+    @Output() gradeChange = new EventEmitter<any>();
 
-    @Input() grade: Grade;
+    @Input() grade = new Grade();
 
     constructor() {
-        this.grade = new Grade({ grade: 5, weight: 0 });
     }
 
     remove(): void {
