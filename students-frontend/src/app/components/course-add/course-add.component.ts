@@ -17,9 +17,7 @@ export class CourseAddComponent {
     open(student: Student) {
         this.newCourse = new Course();
         this.student = student;
-        if (this.activator != null) {
-            this.activator.nativeElement.click();
-        }
+        this.activate();
     }
 
     save(): boolean {
@@ -31,5 +29,11 @@ export class CourseAddComponent {
     cancel(): boolean {
         console.log('cancel');
         return false;
+    }
+
+    private activate(): void {
+        if (this.activator != null) {
+            this.activator.nativeElement.click();
+        }
     }
 }
