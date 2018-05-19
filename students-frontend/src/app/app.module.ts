@@ -13,6 +13,7 @@ import { GradeComponent } from './components/grade/grade.component';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { AboutComponent } from './components/about/about.component';
+import { GradesViewComponent } from './components/grades-view/grades-view.component';
 library.add(faMinus);
 library.add(faPlus);
 
@@ -27,7 +28,8 @@ const routes: Routes = [
         AppComponent,
         HomeComponent,
         GradeComponent,
-        AboutComponent
+        AboutComponent,
+        GradesViewComponent,
     ],
     imports: [
         BrowserModule,

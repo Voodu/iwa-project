@@ -1,0 +1,17 @@
+.infoText {
+    width: 60px;
+    padding: 4px;
+}
+
+p {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    height: 33px;
+}
+
+button {
+    margin-bottom: 5px;
+    border-radius: 50%;
+}
