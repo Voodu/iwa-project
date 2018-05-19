@@ -16,6 +16,7 @@ import { AboutComponent } from './components/about/about.component';
 import { GradesViewComponent } from './components/grades-view/grades-view.component';
 import { CourseAddComponent } from './components/course-add/course-add.component';
 import { CoursesDataComponent } from './components/courses-data/courses-data.component';
+import { BasicStudentDataComponent } from './components/basic-student-data/basic-student-data.component';
 library.add(faMinus);
 library.add(faPlus);
 
@@ -33,7 +34,8 @@ const routes: Routes = [
         AboutComponent,
         GradesViewComponent,
         CourseAddComponent,
-        CoursesDataComponent
+        CoursesDataComponent,
+        BasicStudentDataComponent
     ],
     imports: [
         BrowserModule,
