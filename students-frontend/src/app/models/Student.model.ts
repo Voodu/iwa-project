@@ -9,7 +9,7 @@ export class Student {
 
     public constructor(init?: Partial<Student>) {
         this.id = 0;
-        this.name = this.surname = this.faculty = '';
+        this.name = this.surname = this.faculty = 'no_data';
         this.courses = [];
         Object.assign(this, init);
     }

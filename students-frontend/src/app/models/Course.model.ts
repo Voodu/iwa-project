@@ -10,7 +10,7 @@ export class Course implements Gradeable {
 
     public constructor(init?: Partial<Course>) {
         this.id = this.weight = 0;
-        this.name = '';
+        this.name = 'no_data';
         this.courseGrades = [];
         Object.assign(this, init);
         this.grade = this.avg();
