@@ -24,12 +24,12 @@ export class CourseAddComponent {
 
     save(): boolean {
         console.log('save');
-        return true;
+        this.student.courses.push(this.newCourse);
+        return false;
     }
 
     cancel(): boolean {
         console.log('cancel');
         return false;
-
     }
 }
