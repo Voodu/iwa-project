@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Student } from '../../models';
 import { AverageService } from '../../services';
 
@@ -7,7 +7,7 @@ import { AverageService } from '../../services';
     templateUrl: './basic-student-data.component.html',
     styleUrls: ['./basic-student-data.component.css']
 })
-export class BasicStudentDataComponent implements OnInit, OnDestroy {
+export class BasicStudentDataComponent implements OnInit {
 
     @Input() student = new Student();
 
@@ -15,8 +15,5 @@ export class BasicStudentDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-    }
-
-    ngOnDestroy() {
     }
 }
