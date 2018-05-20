@@ -1,4 +1,4 @@
-import { Course } from '.';
+import { Course } from './Course.model';
 
 export class Student {
     public id: number;
