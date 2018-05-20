@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Student, Course } from '../../models';
@@ -8,42 +8,47 @@ import { NgModel } from '@angular/forms';
     selector: 'app-course-add',
     templateUrl: './course-add.component.html'
 })
-export class CourseAddComponent implements OnInit {
-    // TODO: Change whole component to use ng-bootstrap modal after it is updated to Angular 6
-    static counter = 0;
-    @ViewChild('activator')
-    activator!: ElementRef<HTMLButtonElement>;
-    @ViewChild('modal')
-    modal!: ElementRef<HTMLDivElement>;
+export class CourseAddComponent {
+    @ViewChild('content') content!: ElementRef;
+    student = new Student();
+    newCourse = new Course();
 
-    student: Student = new Student();
-    newCourse: Course = new Course();
-
-    ngOnInit(): void {
-        this.modal.nativeElement.id = 'modal' + CourseAddComponent.counter;
-        this.activator.nativeElement.setAttribute('data-target', '#modal' + CourseAddComponent.counter++);
-    }
+    constructor(private modalService: NgbModal) { }
 
     open(student: Student) {
         this.newCourse = new Course();
         this.student = student;
-        this.activate();
+        this.modalService.open(this.content).result.then((result) => {
+            this.parseClose(result);
+        }, (reason) => {
+            console.log(`Dismissed ${this.getDismissReason(reason)}`);
+        });
     }
 
-    save(): boolean {
-        console.log('save');
-        this.student.courses.push(this.newCourse);
-        return false;
+    save(): void {
     }
 
-    cancel(): boolean {
-        console.log('cancel');
-        return false;
+    cancel(): void {
+
     }
 
-    private activate(): void {
-        if (this.activator != null) {
-            this.activator.nativeElement.click();
+    private parseClose(reason: string) {
+        if (reason === 'Save') {
+            console.log('Saving');
+            this.student.courses.push(this.newCourse);
+        }
+        if (reason === 'Cancel') {
+            console.log('Cancelling');
+        }
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return `with: ${reason}`;
         }
     }
 }

@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -44,9 +44,9 @@ const routes: Routes = [
         BrowserModule,
         HttpClientModule,
         FormsModule,
-        NgbModule.forRoot(),
         RouterModule.forRoot(routes),
-        FontAwesomeModule
+        FontAwesomeModule,
+        NgbModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]
