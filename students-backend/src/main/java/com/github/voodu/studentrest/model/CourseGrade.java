@@ -14,13 +14,13 @@ public class CourseGrade {
     public long id;
 
     public double grade;
-    public long weight;
+    public double weight;
 
     public double getGrade() { return grade; }
     public void setGrade(double value) { this.grade = value; }
 
-    public long getWeight() { return weight; }
-    public void setWeight(long value) { this.weight = value; }
+    public double getWeight() { return weight; }
+    public void setWeight(double value) { this.weight = value; }
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
