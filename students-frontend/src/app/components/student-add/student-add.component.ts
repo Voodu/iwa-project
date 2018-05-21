@@ -26,21 +26,21 @@ export class StudentAddComponent implements OnInit {
     }
 
     save(): void {
+        console.log('Saving');
+        this.dataService.addStudent(this.newStudent).subscribe(response =>
+            this.students.push(response));
     }
 
     cancel(): void {
-
+        console.log('Cancelling');
     }
 
     private parseClose(reason: string) {
         if (reason === 'Save') {
-            console.log('Saving');
-            this.students.push(this.newStudent);
-            // this.dataService.addStudent(this.newStudent).subscribe(response =>
-            //     this.students.push(this.newStudent));
+            this.save();
         }
         if (reason === 'Cancel') {
-            console.log('Cancelling');
+            this.cancel();
         }
     }
 
