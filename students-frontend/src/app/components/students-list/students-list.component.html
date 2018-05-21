@@ -1,7 +1,9 @@
-<div *ngFor="let student of students" class="d-flex flex-row">
-    <app-basic-student-data [student]="student" class="p-2 d-flex"></app-basic-student-data>
-    <button (click)="update(student)" class="btn btn-primary">Save changes</button>
-    <app-courses-data [student]="student" class="p-2 d-flex"></app-courses-data>
+<div class="students-list">
+    <div *ngFor="let student of students" class="d-flex flex-row">
+        <app-basic-student-data [student]="student" class="p-2 d-flex"></app-basic-student-data>
+        <app-courses-data [student]="student" class="p-2 d-flex"></app-courses-data>
+    </div>
 </div>
-
-<app-course-add></app-course-add>
+<button class="btn btn-warning btn-block" (click)="modal.open(students)">Add student</button>
+<!-- <button (click)='delete()'>DELETE</button> -->
+<app-student-add #modal></app-student-add>

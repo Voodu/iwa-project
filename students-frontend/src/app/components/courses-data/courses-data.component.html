@@ -1,12 +1,16 @@
-<div class="course-info">
-    <div ngbDropdown class="p-2">
-        <button class="btn btn-secondary dropdown-toggle btn-block" ngbDropdownToggle>Course</button>
+<div class="course-info m-2">
+    <div ngbDropdown>
+        <button class="dropdown-toggle btn btn-secondary btn-block m-2" ngbDropdownToggle>Course</button>
         <div ngbDropdownMenu>
             <button *ngFor="let course of student.courses" (click)=courseSelected(course) class="dropdown-item">{{course.name}}</button>
         </div>
     </div>
-    <button class="btn btn-success m-2" (click)="modal.open(student)">
+    <button class="btn btn-success btn-block m-2" (click)="modal.open(student)">
         Add Course
+    </button>
+
+    <button class="btn btn-primary btn-block m-2" (click)="update(student)">
+        Save courses
     </button>
 </div>
 

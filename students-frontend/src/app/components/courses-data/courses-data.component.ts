@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Student, Course } from '../../models';
-import { AverageService } from '../../services';
+import { AverageService, DataService } from '../../services';
 
 @Component({
     selector: 'app-courses-data',
@@ -11,7 +11,7 @@ export class CoursesDataComponent implements OnInit {
     @Input() student = new Student();
     selectedCourse = new Course();
 
-    constructor(private avgService: AverageService) {
+    constructor(private avgService: AverageService, private dataService: DataService) {
     }
 
     courseSelected(course: Course): void {
@@ -23,6 +23,10 @@ export class CoursesDataComponent implements OnInit {
         if (this.selectedCourse.courseGrades != null) {
             this.selectedCourse.grade = this.avgService.getAverage(this.selectedCourse.courseGrades);
         }
+    }
+
+    update(student: Student) {
+        this.dataService.updateStudent(student).subscribe(data => console.log(`Updated student id...`));
     }
 
     ngOnInit() {
