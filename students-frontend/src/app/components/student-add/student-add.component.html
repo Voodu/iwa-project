@@ -1,0 +1,40 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <div class="modal-title">
+            <h4>New student</h4>
+        </div>
+
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form #addStudent="ngForm">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input name="name" [(ngModel)]="newStudent.name" type="text" class="form-control" id="name" required #name="ngModel">
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname:</label>
+                <input name="surname" [(ngModel)]="newStudent.surname" type="text" class="form-control" id="surname" required #surname="ngModel">
+            </div>
+            <div class="form-group">
+                <label for="faculty">Faculty:</label>
+                <input name="faculty" [(ngModel)]="newStudent.faculty" type="text" class="form-control" id="faculty" required #faculty="ngModel">
+            </div>
+            <div *ngIf="name.invalid" class="alert alert-danger">
+                Name is required
+            </div>
+            <div *ngIf="surname.invalid" class="alert alert-danger">
+                Surname is required
+            </div>
+            <div *ngIf="faculty.invalid" class="alert alert-danger">
+                Faculty is required
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" (click)="c('Save')" [disabled]="addStudent.invalid">Save</button>
+            <button type="button" class="btn btn-danger" (click)="c('Cancel')">Cancel</button>
+        </div>
+    </form>
+</ng-template>

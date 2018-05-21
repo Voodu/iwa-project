@@ -19,6 +19,7 @@ import { CourseAddComponent } from './components/course-add/course-add.component
 import { CoursesDataComponent } from './components/courses-data/courses-data.component';
 import { BasicStudentDataComponent } from './components/basic-student-data/basic-student-data.component';
 import { StudentsListComponent } from './components/students-list/students-list.component';
+import { StudentAddComponent } from './components/student-add/student-add.component';
 library.add(faMinus);
 library.add(faPlus);
 
@@ -38,7 +39,8 @@ const routes: Routes = [
         CourseAddComponent,
         CoursesDataComponent,
         BasicStudentDataComponent,
-        StudentsListComponent
+        StudentsListComponent,
+        StudentAddComponent
     ],
     imports: [
         BrowserModule,
