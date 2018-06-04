@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class DataService {
 
-    private studentsUrl = 'http://localhost:8080/students';
+    private studentsUrl = 'http://localhost:8080/public/students';
 
     constructor(private http: HttpClient) { }
 

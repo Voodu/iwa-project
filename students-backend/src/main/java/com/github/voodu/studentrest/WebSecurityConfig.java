@@ -16,5 +16,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .cors();
+        http.csrf().disable().authorizeRequests().anyRequest().
+                authenticated().and().formLogin().loginPage("/login").
+                permitAll().and().logout().deleteCookies("rememberme").
+                permitAll().and().rememberMe().tokenValiditySeconds(60);
+
     }
 }
