@@ -11,9 +11,8 @@ import javax.persistence.Id
 class AppUser {
     @Id
     @GeneratedValue
-    var id: Long? = null
-
-    var username: String? = null
-    var password: String? = null
-    var role: String? = null
+    var id: Long = 0
+    var username: String = ""
+    var password: String = ""
+    var accessLevel: Int = 3
 }
