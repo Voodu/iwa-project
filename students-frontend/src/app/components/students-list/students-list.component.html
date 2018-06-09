@@ -1,9 +1,14 @@
 <div class="students-list">
     <div *ngFor="let student of students let i=index" class="d-flex flex-row">
-        <app-basic-student-data [student]="student" class="p-2 d-flex"
+        <app-basic-student-data *ngIf="userService.getRole()=='ADMIN' || userService.getRole()=='TEACHER'" [student]="student" class="p-2 d-flex"
         (deleteEvent)="deleteStudent(i)"></app-basic-student-data>
-        <app-courses-data [student]="student" class="p-2 d-flex"></app-courses-data>
+        <app-guest-student-list *ngIf="userService.getRole()=='GUEST'" [student]="student" class="p-2 d-flex"></app-guest-student-list>
+        <app-student-view *ngIf="userService.getRole()=='STUDENT'" [student]="student" class="p-2 d-flex"></app-student-view>
+
+      <app-student-grades-view *ngIf="userService.getRole()=='STUDENT'" [student]="student" class="p-2 d-flex"></app-student-grades-view>
+      <app-courses-data *ngIf="userService.getRole()=='ADMIN' || userService.getRole()=='TEACHER'" [student]="student" class="p-2 d-flex"></app-courses-data>
+
     </div>
 </div>
-<button class="btn btn-warning btn-block" (click)="modal.open(students)">Add student</button>
+<button *ngIf="userService.getRole()=='ADMIN' || userService.getRole()=='TEACHER'" class="btn btn-warning btn-block" (click)="modal.open(students)">Add student</button>
 <app-student-add #modal></app-student-add>

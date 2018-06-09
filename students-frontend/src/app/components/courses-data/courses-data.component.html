@@ -5,8 +5,8 @@
             <button *ngFor="let course of student.courses" (click)=courseSelected(course) class="dropdown-item">{{course.name}}</button>
         </div>
     </div>
-    <button class="btn btn-success btn-block m-2" (click)="modal.open(student)">
-        Add Course
+    <button *ngIf="userService.getRole()=='ADMIN'" class="btn btn-success btn-block m-2" (click)="modal.open(student)">
+        Add Changes
     </button>
 
     <button class="btn btn-primary btn-block m-2" (click)="update(student)">
@@ -15,4 +15,5 @@
 </div>
 
 <app-grades-view [course]="selectedCourse" class="p-2 d-block" (gradeChange)="updateAvg()"></app-grades-view>
+
 <app-course-add #modal></app-course-add>

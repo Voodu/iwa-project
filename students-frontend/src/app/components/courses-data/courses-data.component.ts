@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Student, Course } from '../../models';
-import { AverageService, DataService } from '../../services';
+import {AverageService, DataService, UserService} from '../../services';
 
 @Component({
     selector: 'app-courses-data',
@@ -11,7 +11,7 @@ export class CoursesDataComponent implements OnInit {
     @Input() student = new Student();
     selectedCourse = new Course();
 
-    constructor(private avgService: AverageService, private dataService: DataService) {
+    constructor(private avgService: AverageService, private dataService: DataService, private userService: UserService) {
     }
 
     courseSelected(course: Course): void {

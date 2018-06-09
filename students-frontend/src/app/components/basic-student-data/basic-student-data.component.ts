@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Student } from '../../models';
-import { AverageService } from '../../services';
+import {AverageService} from '../../services';
 
 @Component({
     selector: 'app-basic-student-data',

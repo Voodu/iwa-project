@@ -7,13 +7,15 @@ import { AppUser } from '../models';
 })
 export class UserService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+      this.user.role = 'ADMIN';
+    }
 
     user = new AppUser();
     logged = false;
 
     login(username: string, password: string) {
-        const user = new AppUser();
+        /*const user = new AppUser();
         user.username = username;
         user.password = password;
         this.http.post<AppUser>('http://localhost:8080/public/login', user)
@@ -24,8 +26,11 @@ export class UserService {
                         this.logged = true;
                     }
                 }
-            );
-
+            );*/
+        this.logged = true;
+    }
+    getRole(): string {
+      return this.user.role;
     }
 
     isLogged() {

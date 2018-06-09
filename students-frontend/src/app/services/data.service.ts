@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
-import { Student } from '../models';
+import {Course, Grade, Student} from '../models';
 import { STUDENTS } from '../other';
 import { Observable, of } from 'rxjs';
 
@@ -45,6 +45,12 @@ export class DataService {
             tap(_ => this.log(`fetched student id=${id}`)),
             catchError(this.handleError<Student>(`getStudent id=${id}`))
         );
+    }
+    getMe(): Observable<Student> {
+      const url = `${this.studentsUrl}/me`;
+      return this.http.get<Student>(url).pipe(
+        tap(_ => this.log(`fetched student `)),
+        catchError(this.handleError<Student>(`getStudent id`)));
     }
 
     /** DELETE: delete the student from the server */
