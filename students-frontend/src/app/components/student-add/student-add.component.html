@@ -12,15 +12,15 @@
         <div class="modal-body">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input name="name" [(ngModel)]="newStudent.name" type="text" class="form-control" id="name" required #name="ngModel">
+                <input name="name" [(ngModel)]="newStudent.name" type="text" class="form-control" id="name" (keypress)="_keyPress($event)" required #name="ngModel">
             </div>
             <div class="form-group">
                 <label for="surname">Surname:</label>
-                <input name="surname" [(ngModel)]="newStudent.surname" type="text" class="form-control" id="surname" required #surname="ngModel">
+                <input name="surname" [(ngModel)]="newStudent.surname" type="text" class="form-control" id="surname" (keypress)="_keyPress($event)" required #surname="ngModel">
             </div>
             <div class="form-group">
                 <label for="faculty">Faculty:</label>
-                <input name="faculty" [(ngModel)]="newStudent.faculty" type="text" class="form-control" id="faculty" required #faculty="ngModel">
+                <input name="faculty" [(ngModel)]="newStudent.faculty" type="text" class="form-control" id="faculty" (keypress)="_keyPress($event)" required #faculty="ngModel">
             </div>
             <div *ngIf="name.invalid" class="alert alert-danger">
                 Name is required

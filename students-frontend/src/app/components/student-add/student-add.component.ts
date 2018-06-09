@@ -53,6 +53,15 @@ export class StudentAddComponent implements OnInit {
             return `with: ${reason}`;
         }
     }
+  _keyPress(event: any) {
+    const pattern = /[A-Z/a-z/ /-]/;
+    const inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
 
     ngOnInit(): void {
     }
