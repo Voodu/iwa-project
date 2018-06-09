@@ -20,5 +20,13 @@ export class StudentsListComponent implements OnInit {
     update(student: Student) {
         this.dataService.updateStudent(student).subscribe(data => console.log(`Updated student id...`));
     }
+    deleteStudent(key: number): boolean {
+      this.dataService.deleteStudent(this.students[key]).subscribe(data => console.log(`Delete student id...`));
+      const index = this.students.indexOf(this.students[key], 0);
+      if (index > -1) {
+        this.students.splice(index, 1);
+      }
+      return false;
+    }
 
 }
