@@ -6,15 +6,18 @@ import { STUDENTS } from '../other';
 import { Observable, of } from 'rxjs';
 
 const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa('server_basic_auth_uname:server_basic_auth_pwd')
+    })
 };
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DataService {
 
-    private studentsUrl = 'http://localhost:8080/students';
+    private studentsUrl = 'http://localhost:8080/public/students';
 
     constructor(private http: HttpClient) { }
 

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -20,13 +21,16 @@ import { CoursesDataComponent } from './components/courses-data/courses-data.com
 import { BasicStudentDataComponent } from './components/basic-student-data/basic-student-data.component';
 import { StudentsListComponent } from './components/students-list/students-list.component';
 import { StudentAddComponent } from './components/student-add/student-add.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { LoginComponent } from './components/login/login.component';
 library.add(faMinus);
 library.add(faPlus);
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
-    { path: 'about', component: AboutComponent }
+    { path: 'about', component: AboutComponent },
+    { path: 'admin', component: AdminComponent }
 ];
 
 @NgModule({
@@ -40,10 +44,13 @@ const routes: Routes = [
         CoursesDataComponent,
         BasicStudentDataComponent,
         StudentsListComponent,
-        StudentAddComponent
+        StudentAddComponent,
+        AdminComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
+        HttpModule,
         HttpClientModule,
         FormsModule,
         RouterModule.forRoot(routes),

@@ -1,9 +1,11 @@
 export { AboutComponent } from './about/about.component';
+export { AdminComponent } from './admin/admin.component';
 export { BasicStudentDataComponent } from './basic-student-data/basic-student-data.component';
 export { CourseAddComponent } from './course-add/course-add.component';
 export { CoursesDataComponent } from './courses-data/courses-data.component';
 export { GradeComponent } from './grade/grade.component';
 export { GradesViewComponent } from './grades-view/grades-view.component';
 export { HomeComponent } from './home/home.component';
+export { LoginComponent } from './login/login.component';
 export { StudentAddComponent } from './student-add/student-add.component';
 export { StudentsListComponent } from './students-list/students-list.component';
