@@ -21,9 +21,9 @@ public class AppUserService {
 
     @Autowired
     AppUserRepository appUserRepository;
-
-    @Autowired
-    TokenRepository tokenRepository;
+//
+//    @Autowired
+//    TokenRepository tokenRepository;
 
     public boolean authenticate(String username, String password) {
         AppUser dbAppUser = appUserRepository.findByUsername(username);
@@ -39,7 +39,7 @@ public class AppUserService {
 
     public Token getToken(AppUser appUser) throws WrongPasswordException {
         if (authenticate(appUser.getUsername(), appUser.getPassword())) {
-            return createAccessToken(appUser.getAccessLevel());
+            return createAccessToken(appUser.getUsername(), appUser.getAccessLevel());
         } else {
             throw new WrongPasswordException();
         }
@@ -48,7 +48,7 @@ public class AppUserService {
     public class WrongPasswordException extends Throwable {
     }
 
-    private Token createAccessToken(int accessLevel) {
+    private Token createAccessToken(String username, int accessLevel) {
         Random random = new Random();
         CharSequence characters = "abcdefghijklmnoprstuwxyz1234567890-_";
         StringBuilder tokenData = new StringBuilder();
@@ -56,8 +56,8 @@ public class AppUserService {
             tokenData.append(characters.charAt(random.nextInt(characters.length())));
         }
         Date today = new Date();
-        Token token = new Token(tokenData.toString(), accessLevel, new Date(today.getTime() + 1000 * 60 * 60));
-        tokenRepository.save(token);
+        Token token = new Token(username, tokenData.toString(), accessLevel, new Date(today.getTime() + 1000 * 60 * 60));
+//        tokenRepository.save(token);
         return token;
     }
 }

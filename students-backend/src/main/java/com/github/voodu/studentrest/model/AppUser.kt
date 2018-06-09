@@ -12,7 +12,6 @@ class AppUser {
     @Id
     @GeneratedValue
     var id: Long = 0
-
     var username: String = ""
     var password: String = ""
     var accessLevel: Int = 3

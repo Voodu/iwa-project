@@ -21,7 +21,7 @@ public class UserController {
         try {
             return appUserService.getToken(appUser);
         } catch (AppUserService.WrongPasswordException e) {
-            return new Token("Login failed: wrong password", 3, new Date());
+            return new Token("Login failed: wrong password", "", 3, new Date());
         }
     }
 }
