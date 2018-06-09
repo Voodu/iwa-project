@@ -5,8 +5,6 @@ import com.github.voodu.studentrest.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/private/admin")

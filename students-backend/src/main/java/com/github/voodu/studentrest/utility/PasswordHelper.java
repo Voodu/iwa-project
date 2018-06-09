@@ -1,8 +1,5 @@
 package com.github.voodu.studentrest.utility;
 
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.nio.charset.StandardCharsets;

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { LoginService } from '../../services/login.service';
+import { UserService } from '../../services';
 
 @Component({
     selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
     username = '';
     password = '';
 
-    constructor(private modalService: NgbModal, private loginService: LoginService) { }
+    constructor(private modalService: NgbModal, private userService: UserService) { }
 
     open(): boolean {
         this.username = this.password = '';
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
-        this.loginService.login(this.username, this.password);
+        this.userService.login(this.username, this.password);
     }
 
     private parseClose(reason: string) {

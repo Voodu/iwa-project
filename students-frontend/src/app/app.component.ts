@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginService } from './services/login.service';
+import { UserService } from './services';
 
 @Component({
     selector: 'app-root',
@@ -9,5 +9,5 @@ import { LoginService } from './services/login.service';
 export class AppComponent {
     title = 'app';
 
-    constructor(private loginService: LoginService) {}
+    constructor(private userService: UserService) {}
 }
