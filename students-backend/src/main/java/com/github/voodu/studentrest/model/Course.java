@@ -3,30 +3,29 @@ package com.github.voodu.studentrest.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Course {
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String name;
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<CourseGrade> courseGrades = new ArrayList<>();
-    private double grade;
-    private long weight;
+    private Long ECTS;
 
-    public long getId() {
+    @ManyToMany(mappedBy = "courses")
+    private Set<Student> students;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Grade> grades;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -38,28 +37,28 @@ public class Course {
         this.name = name;
     }
 
-    public List<CourseGrade> getCourseGrades() {
-        return courseGrades;
+    public Long getECTS() {
+        return ECTS;
     }
 
-    public void setCourseGrades(List<CourseGrade> courseGrades) {
-        this.courseGrades = courseGrades;
+    public void setECTS(Long ECTS) {
+        this.ECTS = ECTS;
     }
 
-    public double getGrade() {
-        return grade;
+    public Set<Student> getStudents() {
+        return students;
     }
 
-    public void setGrade(double grade) {
-        this.grade = grade;
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
-    public long getWeight() {
-        return weight;
+    public Set<Grade> getGrades() {
+        return grades;
     }
 
-    public void setWeight(long weight) {
-        this.weight = weight;
+    public void setGrades(Set<Grade> grades) {
+        this.grades = grades;
     }
 }
 

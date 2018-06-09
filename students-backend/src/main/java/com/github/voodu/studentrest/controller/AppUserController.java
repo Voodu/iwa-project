@@ -11,7 +11,7 @@ import java.util.Date;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/public/login")
-public class UserController {
+public class AppUserController {
 
     @Autowired
     AppUserService appUserService;
