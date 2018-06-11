@@ -5,6 +5,7 @@ import com.github.voodu.studentrest.model.Token;
 import com.github.voodu.studentrest.repository.AppUserRepository;
 import com.github.voodu.studentrest.repository.TokenRepository;
 import com.github.voodu.studentrest.utility.PasswordHelper;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,27 +20,35 @@ import java.util.Random;
 public class AppUserService {
     private static final int tokenLength = 20;
 
-    @Autowired
-    AppUserRepository appUserRepository;
-//
-//    @Autowired
-//    TokenRepository tokenRepository;
+    private AppUserRepository appUserRepository;
+    private TokenRepository tokenRepository;
 
-    public boolean authenticate(String username, String password) {
-        AppUser dbAppUser = appUserRepository.findByUsername(username);
+    @Autowired
+    public void setAppUserRepository(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
+
+    @Autowired
+    public void setTokenRepository(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
+    }
+
+    @Nullable
+    public Integer authenticate(AppUser appUser) {
+        AppUser dbAppUser = appUserRepository.findByUsername(appUser.getUsername());
         String hashed;
         try {
-            hashed = PasswordHelper.getHash(password);
-            return dbAppUser != null && dbAppUser.getPassword().equals(hashed);
+            hashed = PasswordHelper.getHash(appUser.getPassword());
+            return dbAppUser != null && dbAppUser.getPassword().equals(hashed) ? dbAppUser.getAccessLevel() : null; //todo throw wrongpassword and wronglogin there
         } catch (Exception e) {
-            return false;
+            return null;
         }
-
     }
 
     public Token getToken(AppUser appUser) throws WrongPasswordException {
-        if (authenticate(appUser.getUsername(), appUser.getPassword())) {
-            return createAccessToken(appUser.getUsername(), appUser.getAccessLevel());
+        Integer accessLevel = authenticate(appUser);
+        if (accessLevel != null) {
+            return createAccessToken(appUser.getUsername(), accessLevel);
         } else {
             throw new WrongPasswordException();
         }
@@ -57,7 +66,7 @@ public class AppUserService {
         }
         Date today = new Date();
         Token token = new Token(username, tokenData.toString(), accessLevel, new Date(today.getTime() + 1000 * 60 * 60));
-//        tokenRepository.save(token);
+        tokenRepository.save(token);
         return token;
     }
 }
