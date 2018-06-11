@@ -1,7 +1,7 @@
 package com.github.voodu.studentrest.controller;
 
 import com.github.voodu.studentrest.model.Course;
-import com.github.voodu.studentrest.repository.CourseRepository;
+import com.github.voodu.studentrest.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,53 +13,48 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/public/courses")
 public class CourseController {
-    private CourseRepository courseRepository;
-
     @Autowired
-    public CourseController(CourseRepository courseRepository)
-    {
-        this.courseRepository = courseRepository;
+    private CourseService courseService;
+
+    @GetMapping
+    public List<Course> findAllCourses() {
+        return courseService.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Course> findAllCourses()
-    {
-        return courseRepository.findAll();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    public Course findCourse(@PathVariable long id)
-    {
-//        return courseRepository.getOne(id);
-        return new Course();
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public void addCourse(@RequestBody Course course)
-    {
-//        Course course = new Course();
-//        course.setName(course.getName());
-//        course.setSurname(course.getSurname());
-//        course.setFaculty(addCourse();
-//        course.setId(putCourseRequest.getId());
-//        course.setName(putCourseRequest.getName());
-//        course.setSurname(putCourseRequest.getSurname());
-//        course.setFaculty(putCourseRequest.getFaculty());
-//        course.setCourses(putCourseRequest.getCourses());
-//        return courseRepository.save(course);
-    }
-
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Course> deleteCourse (@PathVariable("id") long id) {
-
-        try
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Course> findCourse(@PathVariable long id) {
+        Course found =  courseService.getOne(id);
+        if (found != null)
         {
-            courseRepository.deleteById(id);
+            return new ResponseEntity<>(found, HttpStatus.OK);
         }
-        catch (Exception ex)
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping
+    public Course addCourse(@RequestBody Course course) {
+        course.setId(null);
+        return courseService.save(course);
+    }
+
+    @PutMapping
+    public ResponseEntity<Course> putCourse(@RequestBody Course course) {
+        Course saved = courseService.update(course);
+        if (saved != null)
         {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(saved, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Course> deleteCourse(@PathVariable("id") long id) {
+        if (courseService.deleteById(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
