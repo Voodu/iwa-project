@@ -54,6 +54,17 @@ public class AppUserService {
         }
     }
 
+    public boolean validateAccess(String token, int requiredAccess) {
+        Integer accessLevel = validateToken(token);
+        return accessLevel != null && accessLevel <= requiredAccess;
+    }
+
+    @Nullable
+    private Integer validateToken(String token) {
+        Token dbToken = tokenRepository.findByToken(token);
+        return dbToken == null ? null : dbToken.getAccessLevel();
+    }
+
     public class WrongPasswordException extends Throwable {
     }
 
