@@ -4,5 +4,6 @@
                                  // named "node_modules" from 
                                  // the explore tree
         "students-backend": true
-    }
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
