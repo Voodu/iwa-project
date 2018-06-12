@@ -1,35 +1,53 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AppUser } from '../models';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {AppUser} from '../models';
+import {Token} from '../models/Token.model';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
+
+const loginUrl = 'http://localhost:8080/public/login';
+
 export class UserService {
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-    user = new AppUser();
-    logged = false;
+  tokenInfo = new Token();
+  logged = false;
 
-    login(username: string, password: string) {
-        const user = new AppUser();
-        user.username = username;
-        user.password = password;
-        this.http.post<AppUser>('http://localhost:8080/public/login', user)
-            .subscribe(
-                result => {
-                    this.user = result;
-                    if (this.user) {
-                        this.logged = true;
-                    }
-                }
-            );
-
+  static getUserName(accessLevel: number) {
+    switch (accessLevel) {
+      case 0:
+        return 'administrator';
+      case 1:
+        return 'professor';
+      case 2:
+        return 'student';
+      default:
+        return 'guest';
     }
+  }
 
-    isLogged() {
-        return this.logged;
-    }
+  login(username: string, password: string) {
+    const user = new AppUser();
+    user.username = username;
+    user.password = password;
+    this.http.post<Token>(loginUrl, user)
+      .subscribe(
+        result => {
+          this.tokenInfo = result;
+          if (this.tokenInfo) {
+            this.logged = true;
+          }
+        }
+      );
+
+  }
+
+  isLogged() {
+    return this.logged;
+  }
 
 }
