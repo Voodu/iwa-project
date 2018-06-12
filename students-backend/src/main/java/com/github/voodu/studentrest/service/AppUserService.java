@@ -1,6 +1,7 @@
 package com.github.voodu.studentrest.service;
 
 import com.github.voodu.studentrest.model.AppUser;
+import com.github.voodu.studentrest.model.Login;
 import com.github.voodu.studentrest.model.Token;
 import com.github.voodu.studentrest.repository.AppUserRepository;
 import com.github.voodu.studentrest.repository.TokenRepository;
@@ -34,21 +35,21 @@ public class AppUserService {
     }
 
     @Nullable
-    public Integer authenticate(AppUser appUser) {
-        AppUser dbAppUser = appUserRepository.findByUsername(appUser.getUsername());
+    public Integer authenticate(Login login) {
+        AppUser dbAppUser = appUserRepository.findByUsername(login.getUsername());
         String hashed;
         try {
-            hashed = PasswordHelper.getHash(appUser.getPassword());
+            hashed = PasswordHelper.getHash(login.getPassword());
             return dbAppUser != null && dbAppUser.getPassword().equals(hashed) ? dbAppUser.getAccessLevel() : null; //todo throw wrongpassword and wronglogin there
         } catch (Exception e) {
             return null;
         }
     }
 
-    public Token getToken(AppUser appUser) throws WrongPasswordException {
-        Integer accessLevel = authenticate(appUser);
+    public Token getToken(Login login) throws WrongPasswordException {
+        Integer accessLevel = authenticate(login);
         if (accessLevel != null) {
-            return createAccessToken(appUser.getUsername(), accessLevel);
+            return createAccessToken(login.getUsername(), accessLevel);
         } else {
             throw new WrongPasswordException();
         }
