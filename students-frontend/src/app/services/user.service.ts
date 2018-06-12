@@ -3,11 +3,11 @@ import {HttpClient} from '@angular/common/http';
 import {AppUser} from '../models';
 import {Token} from '../models/Token.model';
 
+const loginUrl = 'http://localhost:8080/public/login';
+
 @Injectable({
   providedIn: 'root'
 })
-
-const loginUrl = 'http://localhost:8080/public/login';
 
 export class UserService {
 
