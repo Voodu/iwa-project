@@ -1,0 +1,10 @@
+<div class="course-info m-2">
+  <div ngbDropdown>
+    <button class="dropdown-toggle btn btn-secondary btn-block m-2" ngbDropdownToggle>Course</button>
+    <div ngbDropdownMenu>
+      <button *ngFor="let course of student.courses" (click)=courseSelected(course) class="dropdown-item">{{course.name}}</button>
+    </div>
+  </div>
+</div>
+
+<app-student-grades-list [course]="selectedCourse" class="p-2 d-block"></app-student-grades-list>

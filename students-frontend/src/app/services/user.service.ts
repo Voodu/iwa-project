@@ -46,6 +46,10 @@ export class UserService {
 
   }
 
+  getRole(): string {
+    return this.user.role // TODO delete this and use getUserName above
+  }
+
   isLogged() {
     return this.logged;
   }

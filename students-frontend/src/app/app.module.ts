@@ -23,6 +23,10 @@ import { StudentsListComponent } from './components/students-list/students-list.
 import { StudentAddComponent } from './components/student-add/student-add.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
+import {GuestStudentListComponent} from './components/guest-student-list/guest-student-list.component';
+import { StudentViewComponent } from './components/student-view/student-view.component';
+import { StudentGradesViewComponent } from './components/student-grades-view/student-grades-view.component';
+import { StudentGradesListComponent } from './components/student-grades-list/student-grades-list.component';
 library.add(faMinus);
 library.add(faPlus);
 
@@ -46,7 +50,11 @@ const routes: Routes = [
         StudentsListComponent,
         StudentAddComponent,
         AdminComponent,
-        LoginComponent
+        LoginComponent,
+        GuestStudentListComponent,
+        StudentViewComponent,
+        StudentGradesViewComponent,
+        StudentGradesListComponent
     ],
     imports: [
         BrowserModule,

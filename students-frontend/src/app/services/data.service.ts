@@ -57,6 +57,13 @@ export class DataService {
     );
   }
 
+  getMe(): Observable<Student> {
+    const url = `${this.studentsUrl}/me`;
+    return this.http.get<Student>(url, DataService.httpOptions).pipe(
+      tap(_ => this.log(`fetched me`)),
+      catchError(this.handleError<Student>(`getMe`)));
+  }
+
   /** DELETE: delete the student from the server */
   deleteStudent(student: Student | number): Observable<Student> {
     const id = typeof student === 'number' ? student : student.id;
