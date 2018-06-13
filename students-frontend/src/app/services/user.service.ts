@@ -15,29 +15,8 @@ export class UserService {
   constructor(private http: HttpClient, private dataServie: DataService) {
   }
 
-  static ACCESS = {
-    ADMIN: {accessLevel: 0, name: 'administrator'},
-    PROF: {accessLevel: 1, name: 'professor'},
-    STUDENT: {accessLevel: 2, name: 'student'},
-    GUEST: {accessLevel: 3, name: 'guest'}
-  };
-
   tokenInfo = new Token();
   logged = false;
-
-
-  getUserAccess() {
-    switch (this.tokenInfo.accessLevel) {
-      case 0:
-        return UserService.ACCESS.ADMIN;
-      case 1:
-        return UserService.ACCESS.PROF;
-      case 2:
-        return UserService.ACCESS.STUDENT;
-      default:
-        return UserService.ACCESS.GUEST;
-    }
-  }
 
   login(username: string, password: string) {
     const user = new AppUser();
@@ -57,8 +36,8 @@ export class UserService {
 
   }
 
-  getRole(): string {
-    return this.getUserAccess().name; // TODO delete this and use getUserName above token has both username and role information
+  getRole(): number {
+    return this.tokenInfo.accessLevel; // TODO delete this and use getUserName above token has both username and role information
   }
 
   isLogged() {
