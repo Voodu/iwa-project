@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AppUser} from '../models';
+import {AppUser, Student} from '../models';
 import {Token} from '../models/Token.model';
 import {DataService} from './data.service';
+import {catchError, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 
 const loginUrl = 'http://localhost:8080/public/login';
 
@@ -12,7 +14,7 @@ const loginUrl = 'http://localhost:8080/public/login';
 
 export class UserService {
 
-  constructor(private http: HttpClient, private dataServie: DataService) {
+  constructor(private http: HttpClient) {
   }
 
   static ACCESS = {
@@ -43,17 +45,16 @@ export class UserService {
     const user = new AppUser();
     user.username = username;
     user.password = password;
-    this.http.post<Token>(loginUrl, user)
-      .subscribe(
-        result => {
-          this.tokenInfo = result;
-          if (result && result.accessLevel < 3) {
-            this.logged = true;
-            this.dataServie.setToken(result.token);
-            this.log(result.token);
-          }
-        }
-      );
+    return this.http.post<Token>(loginUrl, user).pipe(
+      tap(result => {
+            this.tokenInfo = result;
+            if (result && result.accessLevel < 3) {
+              this.logged = true;
+              this.log(result.token);
+            }
+      }),
+      catchError(this.handleError<Token>(`login username = ${username}, password = ${password}`))
+    );
 
   }
 
@@ -66,5 +67,19 @@ export class UserService {
   }
   private log(message: string) {
     console.log('StudentService: ' + message);
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 }
