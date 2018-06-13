@@ -12,7 +12,7 @@ import {Observable, of} from 'rxjs';
 export class DataService {
 
   private static studentsUrl = 'http://localhost:8080/public/students';
-  static httpOptions = {
+  private httpOptions = {
     headers: DataService.createHeaders('')
   };
 
@@ -27,9 +27,9 @@ export class DataService {
   }
 
 
-  static setToken(token: string) {
-    DataService.httpOptions.headers = DataService.createHeaders(token);
-    console.log(DataService.httpOptions.headers.keys());
+  setToken(token: string) {
+    this.httpOptions.headers = DataService.createHeaders(token);
+    console.log(this.httpOptions.headers.keys());
   }
 
   getMockStudents(): Student[] {
@@ -38,12 +38,12 @@ export class DataService {
 
   /** GET students from the server */
   getStudents(): Observable<Student[]> {
-    return this.http.get<Student[]>(DataService.studentsUrl, DataService.httpOptions);
+    return this.http.get<Student[]>(DataService.studentsUrl, this.httpOptions);
   }
 
   /** POST: add a new student to the server */
   addStudent(student: Student): Observable<Student> {
-    return this.http.post<Student>(DataService.studentsUrl, student, DataService.httpOptions).pipe(
+    return this.http.post<Student>(DataService.studentsUrl, student, this.httpOptions).pipe(
       tap((studentAdded: Student) => this.log(`added student id=${studentAdded.id}`)),
       catchError(this.handleError<Student>('addStudent'))
     );
@@ -52,7 +52,7 @@ export class DataService {
   /** GET student by id. Will 404 if id not found */
   getStudent(id: number): Observable<Student> {
     const url = `${DataService.studentsUrl}/${id}`;
-    return this.http.get<Student>(url, DataService.httpOptions).pipe(
+    return this.http.get<Student>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched student id=${id}`)),
       catchError(this.handleError<Student>(`getStudent id=${id}`))
     );
@@ -60,7 +60,7 @@ export class DataService {
 
   getMe(): Observable<Student> {
     const url = `${DataService.studentsUrl}/me`;
-    return this.http.get<Student>(url, DataService.httpOptions).pipe(
+    return this.http.get<Student>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched me`)),
       catchError(this.handleError<Student>(`getMe`)));
   }
@@ -69,7 +69,7 @@ export class DataService {
   deleteStudent(student: Student | number): Observable<Student> {
     const id = typeof student === 'number' ? student : student.id;
     const url = `${DataService.studentsUrl}/${id}`;
-    return this.http.delete<Student>(url, DataService.httpOptions).pipe(
+    return this.http.delete<Student>(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted student id=${id}`)),
       catchError(this.handleError<Student>('deleteStudent'))
     );
@@ -77,7 +77,7 @@ export class DataService {
 
   /** PUT: update the student on the server */
   updateStudent(student: Student): Observable<any> {
-    return this.http.put(DataService.studentsUrl, student, DataService.httpOptions).pipe(
+    return this.http.put(DataService.studentsUrl, student, this.httpOptions).pipe(
       tap(_ => this.log(`updated student id=${student.id}`)),
       catchError(this.handleError<any>('updateStudent'))
     );
