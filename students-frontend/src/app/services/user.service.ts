@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AppUser} from '../models';
 import {Token} from '../models/Token.model';
+import {DataService} from './data.service';
 
 const loginUrl = 'http://localhost:8080/public/login';
 
@@ -46,8 +47,10 @@ export class UserService {
       .subscribe(
         result => {
           UserService.tokenInfo = result;
-          if (result) {
+          if (result && result.accessLevel < 3) {
             UserService.logged = true;
+            DataService.setToken(result.token);
+            this.log(result.token);
           }
         }
       );
@@ -61,5 +64,7 @@ export class UserService {
   isLogged() {
     return UserService.logged;
   }
-
+  private log(message: string) {
+    console.log('StudentService: ' + message);
+  }
 }
