@@ -12,14 +12,14 @@ import {Observable, of} from 'rxjs';
 export class DataService {
 
   private static studentsUrl = 'http://localhost:8080/public/students';
-  private static httpOptions = {
+  static httpOptions = {
     headers: DataService.createHeaders('')
   };
 
   static createHeaders(token: string): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Token': ''
+      'Token': token
     });
   }
 
@@ -29,6 +29,7 @@ export class DataService {
 
   static setToken(token: string) {
     DataService.httpOptions.headers = DataService.createHeaders(token);
+    console.log(DataService.httpOptions.headers.keys());
   }
 
   getMockStudents(): Student[] {
@@ -58,7 +59,7 @@ export class DataService {
   }
 
   getMe(): Observable<Student> {
-    const url = `${this.studentsUrl}/me`;
+    const url = `${DataService.studentsUrl}/me`;
     return this.http.get<Student>(url, DataService.httpOptions).pipe(
       tap(_ => this.log(`fetched me`)),
       catchError(this.handleError<Student>(`getMe`)));
