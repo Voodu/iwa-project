@@ -24,12 +24,12 @@ export class UserService {
     GUEST: {accessLevel: 3, name: 'guest'}
   };
 
-  static tokenInfo = new Token();
-  static logged = false;
+  tokenInfo = new Token();
+  logged = false;
 
 
-  static getUserAccess() {
-    switch (UserService.tokenInfo.accessLevel) {
+  getUserAccess() {
+    switch (this.tokenInfo.accessLevel) {
       case 0:
         return UserService.ACCESS.ADMIN;
       case 1:
@@ -47,9 +47,9 @@ export class UserService {
     user.password = password;
     return this.http.post<Token>(loginUrl, user).pipe(
       tap(result => {
-            UserService.tokenInfo = result;
+            this.tokenInfo = result;
             if (result && result.accessLevel < 3) {
-              UserService.logged = true;
+              this.logged = true;
               this.log(result.token);
             }
       }),
@@ -59,11 +59,11 @@ export class UserService {
   }
 
   getRole(): string {
-    return UserService.getUserAccess().name; // TODO delete this and use getUserName above token has both username and role information
+    return this.getUserAccess().name; // TODO delete this and use getUserName above token has both username and role information
   }
 
   isLogged() {
-    return UserService.logged;
+    return this.logged;
   }
   private log(message: string) {
     console.log('StudentService: ' + message);
