@@ -60,4 +60,8 @@ public class StudentService {
     {
         return id != null && studentRepository.existsById(id);
     }
+
+    public Student getByUsername(String name) {
+        return studentRepository.findByName(name);
+    }
 }

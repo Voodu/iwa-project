@@ -35,23 +35,43 @@ public class StudentController {
 
     @GetMapping
     public List<Student> findAllStudents(HttpServletRequest request, HttpServletResponse response) {
-        return whenAuthorized(2, request, response, () -> studentService.findAll());
+        return whenAuthorized(1, request, response, () -> studentService.findAll());
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Student> findStudent(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) {
-        return whenAuthorized(2, request, response, () -> {
+        return whenAuthorized(1, request, response, () -> {
             Student found = studentService.getOne(id);
-            if (found != null) {
-                return new ResponseEntity<>(found, HttpStatus.OK);
+            if (found == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(found, HttpStatus.OK);
         });
     }
 
+    @GetMapping(value = "/me")
+    public ResponseEntity<Student> findStudent(HttpServletRequest request) {
+        String myUsername = appUserService.getMyUsername(request.getHeader("Token"));
+        if (myUsername == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Long myIndexNumber;
+        try {
+            myIndexNumber = Long.parseLong(myUsername);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Student me = studentService.getOne(myIndexNumber);
+        if (me == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(me, HttpStatus.OK);
+    }
+
+
     @PostMapping
     public Student addStudent(@RequestBody Student student, HttpServletRequest request, HttpServletResponse response) {
-        return whenAuthorized(1, request, response, () -> {
+        return whenAuthorized(0, request, response, () -> {
             student.setId(null);
             return studentService.save(student);
         });
@@ -75,7 +95,6 @@ public class StudentController {
             if (studentService.deleteById(id)) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         });
     }

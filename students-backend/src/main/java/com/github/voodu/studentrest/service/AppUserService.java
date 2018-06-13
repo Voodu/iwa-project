@@ -2,6 +2,7 @@ package com.github.voodu.studentrest.service;
 
 import com.github.voodu.studentrest.model.AppUser;
 import com.github.voodu.studentrest.model.Login;
+import com.github.voodu.studentrest.model.Student;
 import com.github.voodu.studentrest.model.Token;
 import com.github.voodu.studentrest.repository.AppUserRepository;
 import com.github.voodu.studentrest.repository.TokenRepository;
@@ -64,6 +65,16 @@ public class AppUserService {
     private Integer validateToken(String token) {
         Token dbToken = tokenRepository.findByToken(token);
         return dbToken == null ? null : dbToken.getAccessLevel();
+    }
+
+    @Nullable
+    public String getMyUsername(String token) {
+        Token dbToken = tokenRepository.findByToken(token);
+        if (token != null) {
+            AppUser dbAppUser = appUserRepository.findByUsername(dbToken.getUsername());
+            return dbAppUser == null ? null : dbAppUser.getUsername();
+        }
+        return null;
     }
 
     public class WrongPasswordException extends Throwable {
