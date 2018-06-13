@@ -10,4 +10,6 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface StudentRepository extends JpaRepository<Student, Long> {
+    Student findByName(String name);
+
 }
