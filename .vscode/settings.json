@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+        "**/node_modules": true, // this excludes all folders 
+                                 // named "node_modules" from 
+                                 // the explore tree
+        "students-backend": true
+    }
+}

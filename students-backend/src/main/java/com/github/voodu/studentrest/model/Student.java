@@ -2,24 +2,31 @@ package com.github.voodu.studentrest.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToMany
+    @JoinTable(name = "student_course", joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
+    private Set<Course> courses;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private Set<Grade> grades;
 
     private String name;
     private String surname;
     private String faculty;
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Course> courses = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -27,6 +34,22 @@ public class Student {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public Set<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<Grade> grades) {
+        this.grades = grades;
     }
 
     public String getName() {
@@ -51,18 +74,5 @@ public class Student {
 
     public void setFaculty(String faculty) {
         this.faculty = faculty;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }

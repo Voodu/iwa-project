@@ -1,40 +1,57 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AppUser } from '../models';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {AppUser} from '../models';
+import {Token} from '../models/Token.model';
+
+const loginUrl = 'http://localhost:8080/public/login';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
+
 export class UserService {
 
-    constructor(private http: HttpClient) {
-      this.user.role = 'ADMIN';
-    }
+  constructor(private http: HttpClient) {
+  }
 
-    user = new AppUser();
-    logged = false;
+  tokenInfo = new Token();
+  logged = false;
 
-    login(username: string, password: string) {
-        /*const user = new AppUser();
-        user.username = username;
-        user.password = password;
-        this.http.post<AppUser>('http://localhost:8080/public/login', user)
-            .subscribe(
-                result => {
-                    this.user = result;
-                    if (this.user) {
-                        this.logged = true;
-                    }
-                }
-            );*/
-        this.logged = true;
+  static getUserName(accessLevel: number) {
+    switch (accessLevel) {
+      case 0:
+        return 'administrator';
+      case 1:
+        return 'professor';
+      case 2:
+        return 'student';
+      default:
+        return 'guest';
     }
-    getRole(): string {
-      return this.user.role;
-    }
+  }
 
-    isLogged() {
-        return this.logged;
-    }
+  login(username: string, password: string) {
+    const user = new AppUser();
+    user.username = username;
+    user.password = password;
+    this.http.post<Token>(loginUrl, user)
+      .subscribe(
+        result => {
+          this.tokenInfo = result;
+          if (this.tokenInfo) {
+            this.logged = true;
+          }
+        }
+      );
+
+  }
+
+  getRole(): string {
+    return this.user.role // TODO delete this and use getUserName above
+  }
+
+  isLogged() {
+    return this.logged;
+  }
 
 }
