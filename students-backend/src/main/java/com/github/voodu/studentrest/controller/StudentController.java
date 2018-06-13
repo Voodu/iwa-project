@@ -50,12 +50,18 @@ public class StudentController {
     }
 
     @GetMapping(value = "/me")
-    public ResponseEntity<Student> findStudent(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Student> findStudent(HttpServletRequest request) {
         String myUsername = appUserService.getMyUsername(request.getHeader("Token"));
         if (myUsername == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        Student me = studentService.getByUsername(myUsername);
+        Long myIndexNumber;
+        try {
+            myIndexNumber = Long.parseLong(myUsername);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Student me = studentService.getOne(myIndexNumber);
         if (me == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -89,7 +95,6 @@ public class StudentController {
             if (studentService.deleteById(id)) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         });
     }
