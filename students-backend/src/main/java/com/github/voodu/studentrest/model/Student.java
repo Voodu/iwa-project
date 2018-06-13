@@ -19,6 +19,7 @@ public class Student {
 
     @ManyToMany
     @JoinTable(name = "student_course", joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
+    @JsonIgnoreProperties("students")
     private Set<Course> courses;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
@@ -35,6 +36,7 @@ public class Student {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public Set<Course> getCourses() {
         return courses;

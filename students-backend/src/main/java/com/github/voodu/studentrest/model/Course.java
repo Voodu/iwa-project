@@ -19,6 +19,7 @@ public class Course {
     private Long ECTS;
 
     @ManyToMany(mappedBy = "courses")
+    @JsonIgnoreProperties("courses")
     private Set<Student> students;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
