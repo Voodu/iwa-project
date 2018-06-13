@@ -27,7 +27,7 @@ export class DataService {
   }
 
 
-  setToken(token: string) {
+  static setToken(token: string) {
     DataService.httpOptions.headers = DataService.createHeaders(token);
   }
 

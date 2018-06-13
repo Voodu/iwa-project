@@ -14,19 +14,27 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  tokenInfo = new Token();
-  logged = false;
+  static ACCESS = {
+    ADMIN: {accessLevel: 0, name: 'administrator'},
+    PROF: {accessLevel: 1, name: 'professor'},
+    STUDENT: {accessLevel: 2, name: 'student'},
+    GUEST: {accessLevel: 3, name: 'guest'}
+  };
 
-  static getUserName(accessLevel: number) {
-    switch (accessLevel) {
+  static tokenInfo = new Token();
+  static logged = false;
+
+
+  static getUserAccess() {
+    switch (UserService.tokenInfo.accessLevel) {
       case 0:
-        return 'administrator';
+        return UserService.ACCESS.ADMIN;
       case 1:
-        return 'professor';
+        return UserService.ACCESS.PROF;
       case 2:
-        return 'student';
+        return UserService.ACCESS.STUDENT;
       default:
-        return 'guest';
+        return UserService.ACCESS.GUEST;
     }
   }
 
@@ -37,9 +45,9 @@ export class UserService {
     this.http.post<Token>(loginUrl, user)
       .subscribe(
         result => {
-          this.tokenInfo = result;
-          if (this.tokenInfo) {
-            this.logged = true;
+          UserService.tokenInfo = result;
+          if (result) {
+            UserService.logged = true;
           }
         }
       );
@@ -47,11 +55,11 @@ export class UserService {
   }
 
   getRole(): string {
-    return this.user.role // TODO delete this and use getUserName above
+    return UserService.getUserAccess().name; // TODO delete this and use getUserName above token has both username and role information
   }
 
   isLogged() {
-    return this.logged;
+    return UserService.logged;
   }
 
 }
