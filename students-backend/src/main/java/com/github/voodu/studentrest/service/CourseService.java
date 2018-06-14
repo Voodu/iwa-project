@@ -52,8 +52,8 @@ public class CourseService {
     private Boolean exists(Course course)
     {
         return  course != null
-                && course.getId() != null
-                && courseRepository.existsById(course.getId());
+                && course.id != null
+                && courseRepository.existsById(course.id);
     }
 
     private Boolean exists(Long id)

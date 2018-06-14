@@ -1,6 +1,10 @@
 package com.github.voodu.studentrest.controller;
 
+import com.github.voodu.studentrest.model.Course;
+import com.github.voodu.studentrest.model.CourseGrade;
+import com.github.voodu.studentrest.model.CourseInfo;
 import com.github.voodu.studentrest.model.Student;
+import com.github.voodu.studentrest.service.CourseInfoService;
 import com.github.voodu.studentrest.service.StudentService;
 import com.github.voodu.studentrest.repository.CourseRepository;
 import com.github.voodu.studentrest.repository.StudentRepository;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,11 +31,13 @@ public class StudentController {
 
     private AppUserService appUserService;
     private StudentService studentService;
+    private CourseInfoService courseInfoService;
 
     @Autowired
-    public StudentController(AppUserService appUserService, StudentService studentService) {
+    public StudentController(AppUserService appUserService, StudentService studentService, CourseInfoService courseInfoService) {
         this.appUserService = appUserService;
         this.studentService = studentService;
+        this.courseInfoService = courseInfoService;
     }
 
     @GetMapping
@@ -72,7 +79,7 @@ public class StudentController {
     @PostMapping
     public Student addStudent(@RequestBody Student student, HttpServletRequest request, HttpServletResponse response) {
         return whenAuthorized(0, request, response, () -> {
-            student.setId(null);
+            student.id = null;
             return studentService.save(student);
         });
     }
