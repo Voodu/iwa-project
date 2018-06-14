@@ -14,14 +14,12 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Random;
-
+import java.util.UUID;
 
 
 @Repository
 @Transactional
 public class AppUserService {
-    private static final int tokenLength = 20;
-
     private AppUserRepository appUserRepository;
     private TokenRepository tokenRepository;
 
@@ -81,12 +79,7 @@ public class AppUserService {
     }
 
     private Token createAccessToken(String username, int accessLevel) {
-        Random random = new Random();
-        CharSequence characters = "abcdefghijklmnoprstuwxyz1234567890-_";
-        StringBuilder tokenData = new StringBuilder();
-        for (int i = 0; i < tokenLength; i++) {
-            tokenData.append(characters.charAt(random.nextInt(characters.length())));
-        }
+        UUID tokenData = UUID.randomUUID();
         Date today = new Date();
         Token token = new Token(username, tokenData.toString(), accessLevel, new Date(today.getTime() + 1000 * 60 * 60));
         tokenRepository.save(token);
