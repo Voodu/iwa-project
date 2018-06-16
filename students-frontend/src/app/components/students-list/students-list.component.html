@@ -1,9 +1,32 @@
-<div style="text-align: right">
-  <button type="button" (click)="sortStudents()" class="button btn-primary">
-    Sort alfabetically
-  </button>
 
-</div>
+<form>
+  <div class="form-row" style="text-align: right">
+    <div class="col">
+      <button type="button" (click)="sortStudents()" class="button btn-primary">
+        Sort alfabetically
+      </button>
+    </div>
+    <div class="col" class="col-xs-4">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="Input" placeholder="Searching..." #input required>
+        <div class="input-group-append">
+          <button *ngIf="!view" (click)="searching(input)" type="button" class="btn btn-info active">
+            <span class="glyphicon glyphicon-search"></span> Search
+          </button>
+          <button *ngIf="view" type="button" class="btn btn-info disabled">
+            <span class="glyphicon glyphicon-search"></span> Search
+          </button>
+        </div>
+        <div class="input-group-append">
+          <button *ngIf="view"(click)="viewAll()" type="button" class="btn btn-info active">ViewAll
+          </button>
+          <button *ngIf="!view" type="button" class="btn btn-info disabled">ViewAll
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 <div class="students-list">
     <div *ngFor="let student of students let i=index" class="d-flex flex-row">
         <app-basic-student-data *ngIf="userService.getRole()===access.Admin || userService.getRole()===access.Professor" [student]="student" class="p-2 d-flex"
