@@ -40,7 +40,7 @@ constructor(private val appUserService: AppUserService, private val studentServi
     }
 
     @GetMapping(value = ["/me"])
-    fun findStudent(request: HttpServletRequest) = whenAuthorized<Student>(2, request) {
+    fun findMe(request: HttpServletRequest) = whenAuthorized<Student>(2, request) {
         val myUsername = appUserService.getMyUsername(request.getHeader("Token"))
                 ?: return@whenAuthorized ResponseEntity(HttpStatus.UNAUTHORIZED)
         val myIndexNumber: Long
