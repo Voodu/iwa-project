@@ -18,9 +18,7 @@ export class StudentAddComponent implements OnInit {
     open(student: Student[]) {
         this.newStudent = new Student();
         this.students = student;
-        this.modalService.open(this.content).result.then((result) => {
-            this.parseClose(result);
-        }, (reason) => {
+        this.modalService.open(this.content).result.then(result => this.parseClose(result), (reason) => {
             console.log(`Dismissed ${this.getDismissReason(reason)}`);
         });
     }
@@ -53,15 +51,15 @@ export class StudentAddComponent implements OnInit {
             return `with: ${reason}`;
         }
     }
-  _keyPress(event: any) {
-    const pattern = /[A-Z/a-z/ /-]/;
-    const inputChar = String.fromCharCode(event.charCode);
+    _keyPress(event: any) {
+        const pattern = /[A-Z/a-z/ /-]/;
+        const inputChar = String.fromCharCode(event.charCode);
 
-    if (!pattern.test(inputChar)) {
-      // invalid character, prevent input
-      event.preventDefault();
+        if (!pattern.test(inputChar)) {
+            // invalid character, prevent input
+            event.preventDefault();
+        }
     }
-  }
 
     ngOnInit(): void {
     }

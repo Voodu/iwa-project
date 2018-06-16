@@ -9,18 +9,30 @@ import { Access } from '../../enums';
     styleUrls: ['./students-list.component.css']
 })
 export class StudentsListComponent implements OnInit {
-    students = new Array<Student>();
+    students: Student[] = [];
+    access = Access;
 
     constructor(private dataService: DataService, private userService: UserService) {
     }
 
     ngOnInit(): void {
+        this.getStudents();
+    }
+
+    getStudents(): void {
         if (this.userService.getRole() === Access.Student) {
             this.dataService.getMe().subscribe(data => this.students[0] = data, error => console.log('Error'));
         } else {
             // tslint:disable-next-line:max-line-length
-            this.dataService.getStudents().subscribe(data => this.students = data, error => this.students = this.dataService.getMockStudents());
+            this.dataService.getStudents().subscribe(
+                data => this.students = this.dataService.fixModels(data),
+                error => this.students = this.dataService.getMockStudents());
         }
+    }
+
+    test() {
+        console.log(this.userService.getRole());
+        console.log(this.students);
     }
 
     update(student: Student) {

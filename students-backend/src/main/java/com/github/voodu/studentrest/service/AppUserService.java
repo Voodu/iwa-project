@@ -2,7 +2,6 @@ package com.github.voodu.studentrest.service;
 
 import com.github.voodu.studentrest.model.AppUser;
 import com.github.voodu.studentrest.model.Login;
-import com.github.voodu.studentrest.model.Student;
 import com.github.voodu.studentrest.model.Token;
 import com.github.voodu.studentrest.repository.AppUserRepository;
 import com.github.voodu.studentrest.repository.TokenRepository;
