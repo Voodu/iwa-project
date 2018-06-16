@@ -84,15 +84,6 @@ constructor(private val appUserService: AppUserService, private val studentServi
         return appUserService.validateAccess(request.getHeader("Token"), requiredAccess)
     }
 
-    private fun <T> whenAuthorized(requiredAccess: Int, request: HttpServletRequest, response: HttpServletResponse, lambda: () -> T): T? {
-        return if (!validateAccess(request, requiredAccess)) {
-            response.status = 401
-            null
-        } else {
-            lambda()
-        }
-    }
-
     private fun <T> whenAuthorized(requiredAccess: Int, request: HttpServletRequest, lambda: () -> ResponseEntity<T>): ResponseEntity<T> {
         return if (validateAccess(request, requiredAccess)) {
             lambda()
