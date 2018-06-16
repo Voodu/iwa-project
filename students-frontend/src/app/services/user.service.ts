@@ -4,7 +4,7 @@ import {AppUser, Student} from '../models';
 import {Token} from '../models/Token.model';
 import {DataService} from './data.service';
 import {catchError, tap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {reject} from 'q';
 
@@ -36,8 +36,8 @@ export class UserService {
                     this.router.navigateByUrl('/about');
                 }
             }),
-            catchError(this.handleError<Token>(`login username = ${username}, password = ${password}`))
-        );
+            catchError(this.handleError<Token>(`login (username = ${username}, password = ${password})`))
+        )
 
     }
 
@@ -54,13 +54,10 @@ export class UserService {
     }
 
     private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Promise<T> => {
-            // TODO: send the error to remote logging infrastructure
-            console.error(error);  // log to console instead
-            // TODO: better job of transforming error for user consumption
+        return (error: any): Observable<T> => {
+            console.log(error);
             this.log(`${operation} failed: ${error.message}`);
-
-            return Promise.reject(result); // reject request so that it won't call success function
+            return throwError(error);
         };
     }
 }

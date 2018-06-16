@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {DataService, UserService} from '../../services';
 import {HttpErrorResponse} from '@angular/common/http';
+import {catchError, tap} from 'rxjs/operators';
+import {Token} from '../../models/Token.model';
+import {Observable, of} from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -27,16 +30,13 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
-        this.userService.login(this.username, this.password).subscribe(
-          result => {
-              this.errormessage = '';
-              this.dataService.setToken(result.token);
-          },
-            (error: HttpErrorResponse) => {
-              console.log('Error');
-              this.displayError(error);
-            }
-        );
+        this.userService.login(this.username, this.password).pipe(
+            tap(result => {
+                this.errormessage = '';
+                this.dataService.setToken(result.token);
+            }),
+            catchError(this.handleError())
+        ).subscribe();
     }
 
     private parseClose(reason: string) {
@@ -48,12 +48,19 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    private handleError<T>(result?: T) {
+        return (error: any): Observable<T> => {
+            this.displayError(error);
+            return of(result as T); // in this place we're not throwing next error anymore
+        };
+    }
 
     private displayError(error: HttpErrorResponse) {
         switch (error.status) {
             case 401: this.errormessage = 'Wrong password'; break;
             case 404: this.errormessage = 'No such user'; break;
-            case 418: this.errormessage = 'Login and password cannot be null'; break;
+            case 418: this.errormessage = 'Login and password cannot be empty'; break;
         }
+        console.log(`Login failed. Reason: ${this.errormessage}`)
     }
 }
