@@ -27,6 +27,7 @@ import {GuestStudentListComponent} from './components/guest-student-list/guest-s
 import { StudentViewComponent } from './components/student-view/student-view.component';
 import { StudentGradesViewComponent } from './components/student-grades-view/student-grades-view.component';
 import { StudentGradesListComponent } from './components/student-grades-list/student-grades-list.component';
+import { AutofocusDirective } from './directives/autofocus.directive';
 library.add(faMinus);
 library.add(faPlus);
 
@@ -54,7 +55,8 @@ const routes: Routes = [
         GuestStudentListComponent,
         StudentViewComponent,
         StudentGradesViewComponent,
-        StudentGradesListComponent
+        StudentGradesListComponent,
+        AutofocusDirective
     ],
     imports: [
         BrowserModule,
