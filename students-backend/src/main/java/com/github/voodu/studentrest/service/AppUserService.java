@@ -13,14 +13,12 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Random;
-
+import java.util.UUID;
 
 
 @Repository
 @Transactional
 public class AppUserService {
-    private static final int tokenLength = 20;
-
     private AppUserRepository appUserRepository;
     private TokenRepository tokenRepository;
 
@@ -34,25 +32,19 @@ public class AppUserService {
         this.tokenRepository = tokenRepository;
     }
 
-    @Nullable
-    public Integer authenticate(Login login) {
+    public Integer authenticate(Login login) throws NoSuchUserException, WrongPasswordException, IllegalArgumentException {
+        if (login.getUsername().isEmpty() || login.getPassword().isEmpty()) throw new IllegalArgumentException();
         AppUser dbAppUser = appUserRepository.findByUsername(login.getUsername());
-        String hashed;
-        try {
-            hashed = PasswordHelper.getHash(login.getPassword());
-            return dbAppUser != null && dbAppUser.getPassword().equals(hashed) ? dbAppUser.getAccessLevel() : null; //todo throw wrongpassword and wronglogin there
-        } catch (Exception e) {
-            return null;
-        }
+        if (dbAppUser == null) throw new NoSuchUserException();
+        String hashed = PasswordHelper.getHash(login.getPassword());
+        if (!dbAppUser.getPassword().equals(hashed)) throw new WrongPasswordException();
+        return dbAppUser.getAccessLevel();
     }
 
-    public Token getToken(Login login) throws WrongPasswordException {
+    public Token getToken(Login login) throws WrongPasswordException, NoSuchUserException, IllegalArgumentException {
         Integer accessLevel = authenticate(login);
-        if (accessLevel != null) {
-            return createAccessToken(login.getUsername(), accessLevel);
-        } else {
-            throw new WrongPasswordException();
-        }
+        return createAccessToken(login.getUsername(), accessLevel);
+
     }
 
     public boolean validateAccess(String token, int requiredAccess) {
@@ -76,16 +68,14 @@ public class AppUserService {
         return null;
     }
 
-    public class WrongPasswordException extends Throwable {
+    public static class WrongPasswordException extends Throwable {
+    }
+
+    public static class NoSuchUserException extends Throwable {
     }
 
     private Token createAccessToken(String username, int accessLevel) {
-        Random random = new Random();
-        CharSequence characters = "abcdefghijklmnoprstuwxyz1234567890-_";
-        StringBuilder tokenData = new StringBuilder();
-        for (int i = 0; i < tokenLength; i++) {
-            tokenData.append(characters.charAt(random.nextInt(characters.length())));
-        }
+        UUID tokenData = UUID.randomUUID();
         Date today = new Date();
         Token token = new Token(username, tokenData.toString(), accessLevel, new Date(today.getTime() + 1000 * 60 * 60));
         tokenRepository.save(token);
