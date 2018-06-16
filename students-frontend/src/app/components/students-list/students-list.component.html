@@ -1,3 +1,9 @@
+<div style="text-align: right">
+  <button type="button" (click)="sortStudents()" class="button btn-primary">
+    Sort alfabetically
+  </button>
+
+</div>
 <div class="students-list">
     <div *ngFor="let student of students let i=index" class="d-flex flex-row">
         <app-basic-student-data *ngIf="userService.getRole()===access.Admin || userService.getRole()===access.Professor" [student]="student" class="p-2 d-flex"

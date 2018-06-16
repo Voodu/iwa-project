@@ -29,6 +29,15 @@ export class StudentsListComponent implements OnInit {
                 error => this.students = this.dataService.getMockStudents());
         }
     }
+  sortStudents(): void {
+    this.students.sort(function (a, b) {
+      const x = a.name.toLowerCase();
+      const y = b.name.toLowerCase();
+      if (x < y) { return -1; }
+      if (x > y) { return 1; }
+      return 0;
+    });
+  }
 
     test() {
         console.log(this.userService.getRole());
