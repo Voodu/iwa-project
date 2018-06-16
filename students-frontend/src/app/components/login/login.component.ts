@@ -30,13 +30,7 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
-        this.userService.login(this.username, this.password).pipe(
-            tap(result => {
-                this.errormessage = '';
-                this.dataService.setToken(result.token);
-            }),
-            catchError(this.handleError())
-        ).subscribe();
+        this.userService.login(this.username, this.password).subscribe(this.onSuccess, this.onError);
     }
 
     private parseClose(reason: string) {
@@ -48,19 +42,17 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    private handleError<T>(result?: T) {
-        return (error: any): Observable<T> => {
-            this.displayError(error);
-            return of(result as T); // in this place we're not throwing next error anymore
-        };
+    private onSuccess(result: Token) {
+        this.errormessage = '';
+        this.dataService.setToken(result.token);
     }
 
-    private displayError(error: HttpErrorResponse) {
+    private onError(error: HttpErrorResponse) {
         switch (error.status) {
             case 401: this.errormessage = 'Wrong password'; break;
             case 404: this.errormessage = 'No such user'; break;
             case 418: this.errormessage = 'Login and password cannot be empty'; break;
         }
-        console.log(`Login failed. Reason: ${this.errormessage}`)
+        console.log(`Login failed. Reason: ${this.errormessage}`);
     }
 }
