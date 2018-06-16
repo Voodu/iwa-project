@@ -21,7 +21,7 @@
                 </button>
             </div>
         </div>
-        <div class="info" *ngIf="selectedCourse.ECTS !== 0">
+        <div class="info" *ngIf="selectedCourse">
             <div class="form-group">
                 <label for="name">Course name:</label>
                 <input type="text" class="form-control" id="name" value="{{selectedCourse.name}}" disabled>
