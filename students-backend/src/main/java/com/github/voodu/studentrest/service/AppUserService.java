@@ -37,7 +37,7 @@ public class AppUserService {
         AppUser dbAppUser = appUserRepository.findByUsername(login.getUsername());
         if (dbAppUser == null) throw new NoSuchUserException();
         String hashed = PasswordHelper.getHash(login.getPassword());
-        if (dbAppUser.getPassword().equals(hashed)) throw new WrongPasswordException();
+        if (!dbAppUser.getPassword().equals(hashed)) throw new WrongPasswordException();
         return dbAppUser.getAccessLevel();
     }
 
