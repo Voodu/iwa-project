@@ -33,11 +33,7 @@ export class LoginComponent implements OnInit {
 
     private parseClose(reason: string) {
         if (reason === 'Login') {
-            console.log('Logging in');
             this.login();
-        }
-        if (reason === 'Cancel') {
-            console.log('Cancelling');
         }
     }
 

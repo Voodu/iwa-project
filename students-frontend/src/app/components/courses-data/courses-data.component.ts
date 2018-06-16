@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Student, Course } from '../../models';
 import {AverageService, DataService, UserService} from '../../services';
+import { Access } from '../../enums';
 
 @Component({
     selector: 'app-courses-data',
@@ -10,6 +11,7 @@ import {AverageService, DataService, UserService} from '../../services';
 export class CoursesDataComponent implements OnInit {
     @Input() student = new Student();
     selectedCourse = new Course();
+    access = Access;
 
     constructor(private avgService: AverageService, private dataService: DataService, private userService: UserService) {
     }
