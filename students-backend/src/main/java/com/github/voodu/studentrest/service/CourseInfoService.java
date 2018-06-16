@@ -11,13 +11,17 @@ import java.util.List;
 @Repository
 @Transactional
 public class CourseInfoService {
+
+    private CourseInfoRepository courseInfoRepository;
+
     @Autowired
-    CourseInfoRepository courseInfoRepository;
+    public CourseInfoService(CourseInfoRepository courseInfoRepository) {
+        this.courseInfoRepository = courseInfoRepository;
+    }
 
     public List<CourseInfo> findAll() {
         return courseInfoRepository.findAll();
     }
-
 
     public Boolean deleteById(Long id) {
         if (exists(id)) {

@@ -11,8 +11,13 @@ import java.util.List;
 @Repository
 @Transactional
 public class CourseService {
+
+    private CourseRepository courseRepository;
+
     @Autowired
-    CourseRepository courseRepository;
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
     public List<Course> findAll() {
         return courseRepository.findAll();

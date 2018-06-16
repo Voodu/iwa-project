@@ -3,27 +3,19 @@ package com.github.voodu.studentrest.controller
 import com.github.voodu.studentrest.model.*
 import com.github.voodu.studentrest.service.CourseInfoService
 import com.github.voodu.studentrest.service.StudentService
-import com.github.voodu.studentrest.repository.CourseRepository
-import com.github.voodu.studentrest.repository.StudentRepository
 import com.github.voodu.studentrest.service.AppUserService
-import com.github.voodu.studentrest.service.CourseService
-import com.github.voodu.studentrest.utility.Lambda0
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import java.util.ArrayList
-import java.util.HashSet
-import java.util.function.Function
 
 @RestController
 @CrossOrigin(origins = arrayOf("*"), maxAge = 3600)
 @RequestMapping("/public/students")
 class StudentController @Autowired
-constructor(private val appUserService: AppUserService, private val studentService: StudentService, private val courseInfoService: CourseInfoService) {
+constructor(appUserService: AppUserService, private val studentService: StudentService, private val courseInfoService: CourseInfoService): AuthorizedController(appUserService) {
 
     @GetMapping
     fun findAllStudents(request: HttpServletRequest) = whenAuthorized(1, request) {
@@ -85,15 +77,4 @@ constructor(private val appUserService: AppUserService, private val studentServi
         }
     }
 
-    private fun validateAccess(request: HttpServletRequest, requiredAccess: Int): Boolean {
-        return appUserService.validateAccess(request.getHeader("Token"), requiredAccess)
-    }
-
-    private fun <T> whenAuthorized(requiredAccess: Int, request: HttpServletRequest, lambda: () -> ResponseEntity<T>): ResponseEntity<T> {
-        return if (validateAccess(request, requiredAccess)) {
-            lambda()
-        } else {
-            ResponseEntity(HttpStatus.UNAUTHORIZED)
-        }
-    }
 }

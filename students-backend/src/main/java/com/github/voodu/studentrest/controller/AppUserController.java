@@ -5,6 +5,8 @@ import com.github.voodu.studentrest.model.Login;
 import com.github.voodu.studentrest.model.Token;
 import com.github.voodu.studentrest.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -14,15 +16,23 @@ import java.util.Date;
 @RequestMapping("/public/login")
 public class AppUserController {
 
+    private AppUserService appUserService;
+
     @Autowired
-    AppUserService appUserService;
+    public AppUserController(AppUserService appUserService) {
+        this.appUserService = appUserService;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Token login(@RequestBody Login login) throws Exception {
+    public ResponseEntity<Token> login(@RequestBody Login login) {
         try {
-            return appUserService.getToken(login);
+            return ResponseEntity.ok(appUserService.getToken(login));
+        } catch (AppUserService.NoSuchUserException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (AppUserService.WrongPasswordException e) {
-            return new Token("Login failed: wrong password", "", 3, new Date());
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
         }
     }
 }

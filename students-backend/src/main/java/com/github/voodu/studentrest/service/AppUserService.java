@@ -32,25 +32,19 @@ public class AppUserService {
         this.tokenRepository = tokenRepository;
     }
 
-    @Nullable
-    public Integer authenticate(Login login) {
+    public Integer authenticate(Login login) throws NoSuchUserException, WrongPasswordException, IllegalArgumentException {
+        if (login.getUsername().isEmpty() || login.getPassword().isEmpty()) throw new IllegalArgumentException();
         AppUser dbAppUser = appUserRepository.findByUsername(login.getUsername());
-        String hashed;
-        try {
-            hashed = PasswordHelper.getHash(login.getPassword());
-            return dbAppUser != null && dbAppUser.getPassword().equals(hashed) ? dbAppUser.getAccessLevel() : null; //todo throw wrongpassword and wronglogin there
-        } catch (Exception e) {
-            return null;
-        }
+        if (dbAppUser == null) throw new NoSuchUserException();
+        String hashed = PasswordHelper.getHash(login.getPassword());
+        if (dbAppUser.getPassword().equals(hashed)) throw new WrongPasswordException();
+        return dbAppUser.getAccessLevel();
     }
 
-    public Token getToken(Login login) throws WrongPasswordException {
+    public Token getToken(Login login) throws WrongPasswordException, NoSuchUserException, IllegalArgumentException {
         Integer accessLevel = authenticate(login);
-        if (accessLevel != null) {
-            return createAccessToken(login.getUsername(), accessLevel);
-        } else {
-            throw new WrongPasswordException();
-        }
+        return createAccessToken(login.getUsername(), accessLevel);
+
     }
 
     public boolean validateAccess(String token, int requiredAccess) {
@@ -74,7 +68,10 @@ public class AppUserService {
         return null;
     }
 
-    public class WrongPasswordException extends Throwable {
+    public static class WrongPasswordException extends Throwable {
+    }
+
+    public static class NoSuchUserException extends Throwable {
     }
 
     private Token createAccessToken(String username, int accessLevel) {
