@@ -45,11 +45,9 @@ export class CourseAddComponent {
             console.log('Saving');
             const course = new Course();
             course.courseInfo = this.selectedCourse;
-            // delete course.grade;
             course.weight = course.courseInfo.ECTS;
             this.student.courses.push(course);
-            // this.student.courses[this.student.courses.length - 1].weight = course.courseInfo.ECTS;
-            this.dataService.updateStudent(this.student).subscribe(data => console.log(data)); // TODO
+            this.dataService.updateStudent(this.student).subscribe(data => console.log(data));
         }
         if (reason === 'Cancel') {
             console.log('Cancelling');
