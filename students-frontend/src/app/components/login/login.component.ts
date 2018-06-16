@@ -30,7 +30,10 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
-        this.userService.login(this.username, this.password).subscribe(this.onSuccess, this.onError);
+        this.userService.login(this.username, this.password).subscribe(result =>{
+            this.errormessage = '';
+            this.dataService.setToken(result.token);
+        }, this.onError);
     }
 
     private parseClose(reason: string) {
@@ -42,7 +45,7 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    private onSuccess(result: Token) {
+    private onSuccess(result: Token) { //TODO place this method in subscribe above
         this.errormessage = '';
         this.dataService.setToken(result.token);
     }
