@@ -1,9 +1,6 @@
 package com.github.voodu.studentrest.controller
 
-import com.github.voodu.studentrest.model.Course
-import com.github.voodu.studentrest.model.CourseGrade
-import com.github.voodu.studentrest.model.CourseInfo
-import com.github.voodu.studentrest.model.Student
+import com.github.voodu.studentrest.model.*
 import com.github.voodu.studentrest.service.CourseInfoService
 import com.github.voodu.studentrest.service.StudentService
 import com.github.voodu.studentrest.repository.CourseRepository
@@ -31,6 +28,14 @@ constructor(private val appUserService: AppUserService, private val studentServi
     @GetMapping
     fun findAllStudents(request: HttpServletRequest) = whenAuthorized(1, request) {
         ResponseEntity(studentService.findAll(), HttpStatus.OK)
+    }.let { response ->
+        if(response.statusCode == HttpStatus.OK) {
+            response
+        } else {
+            val found = studentService.findAll().map(::SimpleStudent)
+            ResponseEntity(found, HttpStatus.OK)
+        }
+
     }
 
     @GetMapping(value = ["/{id}"])
@@ -42,7 +47,7 @@ constructor(private val appUserService: AppUserService, private val studentServi
     @GetMapping(value = ["/me"])
     fun findMe(request: HttpServletRequest) = whenAuthorized<Student>(2, request) {
         val myUsername = appUserService.getMyUsername(request.getHeader("Token"))
-                ?: return@whenAuthorized ResponseEntity(HttpStatus.UNAUTHORIZED)
+                ?: return@whenAuthorized ResponseEntity(HttpStatus.UNAUTHORIZED) //TODO throw WTF there
         val myIndexNumber: Long
         try {
             myIndexNumber = java.lang.Long.parseLong(myUsername)
