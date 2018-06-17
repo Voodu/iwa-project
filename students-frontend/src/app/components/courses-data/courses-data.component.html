@@ -14,6 +14,6 @@
     </button>
 </div>
 
-<app-grades-view [course]="selectedCourse" class="p-2 d-block" (gradeChange)="updateAvg()"></app-grades-view>
+<app-grades-view *ngIf="selectedCourse" [course]="selectedCourse" class="p-2 d-block" (gradeChange)="updateAvg()"></app-grades-view>
 
 <app-course-add #modal></app-course-add>

@@ -13,7 +13,7 @@
                 <a [routerLink]='["/about"]' class="nav-link" href="#">About</a>
             </li>
             <li *ngIf="!userService.isLogged()" class="nav-item">
-                <a (click)="modal.open()" class="nav-link" href="">Login</a>
+                <a (click)="openModal()" class="nav-link" href="">Login</a>
             </li>
             <li *ngIf="userService.getRole()=='ADMIN'" class="nav-item">
                 <a [routerLink]='["/admin"]' class="nav-link" href="#">Admin</a>
@@ -21,8 +21,6 @@
         </ul>
     </div>
 </nav>
-
-<app-login #modal></app-login>
 
 <div class="container">
     <router-outlet></router-outlet>

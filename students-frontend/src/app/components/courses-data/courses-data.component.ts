@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Student, Course } from '../../models';
-import {AverageService, DataService, UserService} from '../../services';
+import { AverageService, DataService, UserService } from '../../services';
 import { Access } from '../../enums';
 
 @Component({
@@ -10,7 +10,7 @@ import { Access } from '../../enums';
 })
 export class CoursesDataComponent implements OnInit {
     @Input() student = new Student();
-    selectedCourse = new Course();
+    selectedCourse!: Course;
     access = Access;
 
     constructor(private avgService: AverageService, private dataService: DataService, protected userService: UserService) {
@@ -32,7 +32,9 @@ export class CoursesDataComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.selectedCourse = this.student.courses[0] || new Course();
-        this.updateAvg();
+        if (this.student && this.student.courses && this.student.courses.length > 0) {
+            this.selectedCourse = this.student.courses[0];
+            this.updateAvg();
+        }
     }
 }

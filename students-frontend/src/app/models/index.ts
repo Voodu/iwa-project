@@ -3,3 +3,4 @@ export { Grade } from './Grade.model';
 export { Student } from './Student.model';
 export { AppUser } from './AppUser.model';
 export { CourseInfo } from './CourseInfo.model';
+export { Token } from './Token.model';

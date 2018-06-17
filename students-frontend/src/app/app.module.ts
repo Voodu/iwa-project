@@ -68,6 +68,7 @@ const routes: Routes = [
         NgbModule.forRoot()
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [LoginComponent]
 })
 export class AppModule { }

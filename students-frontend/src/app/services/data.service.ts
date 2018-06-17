@@ -116,8 +116,10 @@ export class DataService {
 
     fixModels(students: Student[]): Student[] {
         for (const student of students) {
-            for (const course of student.courses) {
-                course.weight = course.courseInfo.ECTS;
+            if (student.courses) {
+                for (const course of student.courses) {
+                    course.weight = course.courseInfo.ECTS;
+                }
             }
         }
         return students;

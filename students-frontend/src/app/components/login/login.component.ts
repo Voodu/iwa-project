@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import {DataService, UserService} from '../../services';
-import {HttpErrorResponse} from '@angular/common/http';
-import {catchError, tap} from 'rxjs/operators';
-import {Token} from '../../models/Token.model';
-import {Observable, of} from 'rxjs';
-import {Router} from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DataService, UserService } from '../../services';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Token } from '../../models';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-login',
@@ -13,53 +11,41 @@ import {Router} from '@angular/router';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    @ViewChild('content') content!: ElementRef;
     username = '';
     password = '';
-    errormessage = '';
+    errorMessage = '';
 
-    constructor(private modalService: NgbModal, private userService: UserService, private dataService: DataService, private router: Router) { }
-
-    open(): boolean {
-        this.username = this.password = '';
-        this.modalService.open(this.content).result.then((result: any) => {
-            console.log('Fullfilled');
-            this.parseClose(result);
-        }, (reason: any) => {
-            console.log(`Dismissed`);
-        });
-        return false;
-    }
+    constructor(
+        private activeModal: NgbActiveModal,
+        private userService: UserService,
+        private dataService: DataService,
+        private router: Router) { }
 
     login(): void {
-        this.userService.login(this.username, this.password).subscribe(result =>{
-            this.errormessage = '';
-            this.dataService.setToken(result.token);
-            close(); //TODO close modal
-            this.router.navigateByUrl('/home')
-        }, this.onError);
+        this.userService.login(this.username, this.password).subscribe(this.onSuccess.bind(this), this.onError.bind(this));
     }
 
-    private parseClose(reason: string) {
-        if (reason === 'Login') {
-            this.login();
-        }
+    close(): void {
+        this.activeModal.close();
     }
 
     ngOnInit(): void {
     }
 
-    private onSuccess(result: Token) { //TODO place this method in subscribe above
-        this.errormessage = '';
+    private onSuccess(result: Token) {
+        this.errorMessage = '';
         this.dataService.setToken(result.token);
+        this.activeModal.close();
+        this.router.onSameUrlNavigation = 'reload'; // Does not work :(
+        this.router.navigateByUrl('/home');
     }
 
     private onError(error: HttpErrorResponse) {
         switch (error.status) {
-            case 401: this.errormessage = 'Wrong password'; break;
-            case 404: this.errormessage = 'No such user'; break;
-            case 418: this.errormessage = 'Login and password cannot be empty'; break;
+            case 401: // Do not provide info which is wrong - prevent username enumeration
+            case 404: this.errorMessage = 'Wrong username or password'; break;
+            case 418: this.errorMessage = 'Login and password cannot be empty'; break;
         }
-        console.log(`Login failed. Reason: ${this.errormessage}`);
+        console.log(`Login failed. Reason: ${this.errorMessage}`);
     }
 }
