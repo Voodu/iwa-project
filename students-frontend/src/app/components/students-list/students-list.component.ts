@@ -10,9 +10,13 @@ import { Access } from '../../enums';
 })
 export class StudentsListComponent implements OnInit {
     students: Student[] = [];
+    searchedStudents: Student[] = [];
+    temporaryStudents: Student[] = [];
     access = Access;
+    view: boolean;
 
     constructor(private dataService: DataService, protected userService: UserService) {
+      this.view = false;
     }
 
     ngOnInit(): void {
@@ -29,6 +33,36 @@ export class StudentsListComponent implements OnInit {
                 error => this.students = this.dataService.getMockStudents());
         }
     }
+  sortStudents(): void {
+    this.students.sort(function (a, b) {
+      const x = a.name.toLowerCase();
+      const y = b.name.toLowerCase();
+      if (x < y) { return -1; }
+      if (x > y) { return 1; }
+      return 0;
+    });
+  }
+  searching(input: HTMLInputElement): void {
+      if (input.value !== '') {
+        let i;
+        const text = input.value.toString().toLowerCase();
+        for (i = 0; i < this.students.length; i++) {
+          if (this.students[i].name.toLowerCase().search(text) >= 0 || this.students[i].surname.toLowerCase().search(text) >= 0) {
+            this.searchedStudents.push(this.students[i]);
+            console.log(this.students[i]);
+          }
+        }
+        input.value = '';
+        this.view = !this.view;
+        this.temporaryStudents = this.students.slice();
+        this.students = this.searchedStudents.slice();
+      }
+  }
+  viewAll(): void {
+      this.view = !this.view;
+      this.students = this.temporaryStudents.slice();
+      this.searchedStudents = [];
+  }
 
     test() {
         console.log(this.userService.getRole());
