@@ -13,7 +13,7 @@ export class CoursesDataComponent implements OnInit {
     selectedCourse = new Course();
     access = Access;
 
-    constructor(private avgService: AverageService, private dataService: DataService, private userService: UserService) {
+    constructor(private avgService: AverageService, private dataService: DataService, protected userService: UserService) {
     }
 
     courseSelected(course: Course): void {

@@ -12,7 +12,7 @@ export class StudentsListComponent implements OnInit {
     students: Student[] = [];
     access = Access;
 
-    constructor(private dataService: DataService, private userService: UserService) {
+    constructor(private dataService: DataService, protected userService: UserService) {
     }
 
     ngOnInit(): void {
