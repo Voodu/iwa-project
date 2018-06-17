@@ -5,6 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {Token} from '../../models/Token.model';
 import {Observable, of} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -17,11 +18,12 @@ export class LoginComponent implements OnInit {
     password = '';
     errormessage = '';
 
-    constructor(private modalService: NgbModal, private userService: UserService, private dataService: DataService) { }
+    constructor(private modalService: NgbModal, private userService: UserService, private dataService: DataService, private router: Router) { }
 
     open(): boolean {
         this.username = this.password = '';
         this.modalService.open(this.content).result.then((result: any) => {
+            console.log('Fullfilled');
             this.parseClose(result);
         }, (reason: any) => {
             console.log(`Dismissed`);
@@ -33,6 +35,8 @@ export class LoginComponent implements OnInit {
         this.userService.login(this.username, this.password).subscribe(result =>{
             this.errormessage = '';
             this.dataService.setToken(result.token);
+            close(); //TODO close modal
+            this.router.navigateByUrl('/home')
         }, this.onError);
     }
 

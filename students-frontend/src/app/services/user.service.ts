@@ -7,6 +7,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {Observable, of, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {reject} from 'q';
+import {Access} from '../enums';
 
 const loginUrl = 'http://localhost:8080/public/login';
 
@@ -33,7 +34,6 @@ export class UserService {
                 if (result && result.accessLevel < 3) {
                     this.logged = true;
                     this.log(result.token);
-                    this.router.navigateByUrl('/about');
                 }
             }),
             catchError(this.handleError<Token>(`login (username = ${username}, password = ${password})`))
@@ -41,8 +41,8 @@ export class UserService {
 
     }
 
-    getRole(): number {
-        return this.tokenInfo.accessLevel; // TODO delete this and use getUserName above token has both username and role information
+    getRole(): Access {
+        return this.tokenInfo.accessLevel as Access;
     }
 
     isLogged() {
