@@ -47,7 +47,7 @@ constructor(appUserService: AppUserService, private val studentService: StudentS
             return@whenAuthorized ResponseEntity(HttpStatus.NOT_FOUND)
         }
         return@whenAuthorized studentService.getOne(myIndexNumber)?.let { me ->
-            ResponseEntity(me, HttpStatus.OK)
+            ResponseEntity.ok(me)
         } ?: ResponseEntity(HttpStatus.NOT_FOUND)
 
     }
@@ -61,7 +61,7 @@ constructor(appUserService: AppUserService, private val studentService: StudentS
     fun putStudent(@RequestBody student: Student, request: HttpServletRequest) = whenAuthorized(0, request) {
         val saved = studentService.update(student)
         if (saved != null) {
-            ResponseEntity(saved, HttpStatus.OK)
+            ResponseEntity.ok(saved)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
@@ -69,8 +69,9 @@ constructor(appUserService: AppUserService, private val studentService: StudentS
 
     @DeleteMapping(value = ["/{id}"])
     fun deleteStudent(@PathVariable("id") id: Long, request: HttpServletRequest) = whenAuthorized(0, request) {
-        if (studentService.deleteById(id)) {
-            ResponseEntity(Student(), HttpStatus.OK)
+        val deleted = studentService.deleteById(id)
+        if (deleted != null) {
+            ResponseEntity.ok(deleted)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
