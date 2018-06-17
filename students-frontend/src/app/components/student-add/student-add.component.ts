@@ -16,7 +16,7 @@ export class StudentAddComponent implements OnInit {
     constructor(private modalService: NgbModal, private dataService: DataService) { }
 
     open(student: Student[]) {
-        this.newStudent = new Student();
+        this.newStudent = new Student({ name: '', surname: '', faculty: '' });
         this.students = student;
         this.modalService.open(this.content).result.then(result => this.parseClose(result), (reason) => {
             console.log(`Dismissed ${this.getDismissReason(reason)}`);

@@ -15,7 +15,7 @@ export class StudentsListComponent implements OnInit {
     access = Access;
     view: boolean;
 
-    constructor(private dataService: DataService, private userService: UserService) {
+    constructor(private dataService: DataService, protected userService: UserService) {
       this.view = false;
     }
 

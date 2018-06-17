@@ -1,6 +1,6 @@
 export enum Access {
-    Admin,
-    Professor,
-    Student,
-    Guest
+    Admin = 0,
+    Professor = 1,
+    Student = 2,
+    Guest = 3
 }
