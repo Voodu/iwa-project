@@ -33,7 +33,7 @@ class CourseInfoController @Autowired constructor(appUserService: AppUserService
 
     @PostMapping //only admin
     fun addCourseInfo(@RequestBody courseInfo: CourseInfo, request: HttpServletRequest) = whenAuthorized(0, request) {
-        ResponseEntity.ok(courseInfoService.save(courseInfo))
+        ResponseEntity.ok(courseInfoService.save(courseInfo.apply { id = null }))
     }
 
     @PutMapping //only admin
