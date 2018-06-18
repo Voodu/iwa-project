@@ -19,17 +19,15 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.dataService.getCourses().subscribe(data => this.courses = data);
+        this.getCourses();
     }
 
     openModal(): boolean {
-        this.modalService.open(CourseinfoAddComponent);
+        this.modalService.open(CourseinfoAddComponent).result.then(_ => this.getCourses());
         return false;
     }
 
-    // deleteCourse(ix: number)
-    // {
-        
-    // }
-
+    getCourses() {
+        this.dataService.getCourses().subscribe(data => this.courses = data);
+    }
 }

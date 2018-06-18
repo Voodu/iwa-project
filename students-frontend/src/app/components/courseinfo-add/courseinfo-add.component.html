@@ -17,6 +17,9 @@
             <label for="ECTS">ECTS:</label>
             <input name="ECTS" class="form-control" type="number" step="1" min="0" [(ngModel)]="newCourse.ECTS" (keydown)="false" required #ECTS="ngModel">
         </div>
+        <div *ngIf="name.touched && name.invalid" class="alert alert-danger">
+                Name is required
+            </div>
         <div *ngIf="errorMessage" class="alert alert-danger">
             {{errorMessage}}
         </div>
