@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
         private router: Router) { }
 
     login(): void {
+        this.router.navigateByUrl('/about');
         this.userService.login(this.username, this.password).subscribe(this.onSuccess.bind(this), this.onError.bind(this));
     }
 

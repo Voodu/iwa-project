@@ -54,7 +54,7 @@ constructor(appUserService: AppUserService, private val studentService: StudentS
 
     @PostMapping
     fun addStudent(@RequestBody student: Student, request: HttpServletRequest) = whenAuthorized(0, request) {
-        ResponseEntity(studentService.save(student), HttpStatus.OK)
+        ResponseEntity(studentService.save(student.apply { id = null }), HttpStatus.OK)
     }
 
     @PutMapping

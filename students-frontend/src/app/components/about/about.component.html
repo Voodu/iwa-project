@@ -1,3 +1,12 @@
 <div class="container">
-    <p>{{greeting}}</p>
+        <p>Hello, We are CS students and we wrote this app!</p>
+        <div>
+            As {{getUserName()}} you can:
+            <ul>
+                <li *ngIf="userService.getRole() <= 3 && userService.getRole() != 2">See list of students</li>
+                <li *ngIf="userService.getRole() <= 2">See your information</li>
+                <li *ngIf="userService.getRole() <= 1">Add students, and change their grades</li>
+                <li *ngIf="userService.getRole() <= 0">Add and remove courses</li>
+            </ul>
+        </div>
 </div>
