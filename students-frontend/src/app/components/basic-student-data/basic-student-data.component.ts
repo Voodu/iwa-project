@@ -12,6 +12,10 @@ export class BasicStudentDataComponent implements OnInit {
     @Input() student = new Student();
     @Output() deleteEvent: EventEmitter<any> = new EventEmitter<any>();
 
+    getPortraitLink() {
+        return 'https://api.adorable.io/avatars/128/' + this.student.id;
+    }
+
     constructor(private avgService: AverageService) {
     }
     deleteST(): void {
