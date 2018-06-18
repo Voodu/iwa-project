@@ -14,13 +14,18 @@ export class StudentsListComponent implements OnInit {
     temporaryStudents: Student[] = [];
     access = Access;
     view: boolean;
+    bysurname: boolean;
 
     constructor(private dataService: DataService, protected userService: UserService) {
       this.view = false;
+      this.bysurname = true;
     }
 
     ngOnInit(): void {
         this.getStudents();
+    }
+    radioChecked(): void {
+        this.bysurname = !this.bysurname;
     }
 
     getStudents(): void {
@@ -33,10 +38,17 @@ export class StudentsListComponent implements OnInit {
                 error => this.students = this.dataService.getMockStudents());
         }
     }
-  sortStudents(): void {
+  sortStudents(valueOfRadio: boolean): void {
     this.students.sort(function (a, b) {
-      const x = a.name.toLowerCase();
-      const y = b.name.toLowerCase();
+        let x, y;
+        if (valueOfRadio === false) {
+            x = a.name.toLowerCase();
+            y = b.name.toLowerCase();
+        }
+        else {
+            x = a.surname.toLowerCase();
+            y = b.surname.toLowerCase();
+        }
       if (x < y) { return -1; }
       if (x > y) { return 1; }
       return 0;

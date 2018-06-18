@@ -2,10 +2,16 @@
 <form>
   <div class="form-row" style="text-align: right">
     <div class="col">
-      <button type="button" (click)="sortStudents()" class="button btn-primary">
-        Sort alfabetically
+      <button type="button" (click)="sortStudents(bysurname)" class="btn btn-primary">
+        Sort
       </button>
     </div>
+        <div class="radio">
+            <label class="container">by name<input type="radio" name="radio" (click)="radioChecked()"><span class="checkmark"></span></label>
+        </div>
+        <div class="radio">
+            <label class="container">by surname<input type="radio" name="radio" (click)="radioChecked()"> <span class="checkmark"></span></label>
+        </div>
     <div class="col" class="col-xs-4">
       <div class="input-group mb-3">
         <input type="text" class="form-control" name="Input" placeholder="Searching..." #input required>
