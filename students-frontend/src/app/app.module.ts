@@ -28,6 +28,7 @@ import { StudentViewComponent } from './components/student-view/student-view.com
 import { StudentGradesViewComponent } from './components/student-grades-view/student-grades-view.component';
 import { StudentGradesListComponent } from './components/student-grades-list/student-grades-list.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
+import { CourseinfoAddComponent } from './components/courseinfo-add/courseinfo-add.component';
 library.add(faMinus);
 library.add(faPlus);
 
@@ -56,7 +57,8 @@ const routes: Routes = [
         StudentViewComponent,
         StudentGradesViewComponent,
         StudentGradesListComponent,
-        AutofocusDirective
+        AutofocusDirective,
+        CourseinfoAddComponent
     ],
     imports: [
         BrowserModule,
@@ -69,6 +71,6 @@ const routes: Routes = [
     ],
     providers: [],
     bootstrap: [AppComponent],
-    entryComponents: [LoginComponent]
+    entryComponents: [LoginComponent, CourseinfoAddComponent]
 })
 export class AppModule { }

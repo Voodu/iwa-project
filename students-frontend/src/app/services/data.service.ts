@@ -42,16 +42,26 @@ export class DataService {
         return this.http.get<Student[]>(this.studentsUrl, this.httpOptions);
     }
 
-    /** GET students from the server */
+    /** GET courses from the server */
     getCourses(): Observable<CourseInfo[]> {
         return this.http.get<CourseInfo[]>(this.coursesUrl, this.httpOptions);
     }
 
     /** POST: add a new student to the server */
     addStudent(student: Student): Observable<Student> {
+        student.id = undefined;
         return this.http.post<Student>(this.studentsUrl, student, this.httpOptions).pipe(
             tap((studentAdded: Student) => this.log(`added student id=${studentAdded.id}`)),
             catchError(this.handleError<Student>('addStudent'))
+        );
+    }
+
+    /** POST: add a new course to the server */
+    addCourseInfo(courseInfo: CourseInfo): Observable<CourseInfo> {
+        courseInfo.id = undefined;
+        return this.http.post<CourseInfo>(this.coursesUrl, courseInfo, this.httpOptions).pipe(
+            tap((courseInfoAdded: CourseInfo) => this.log(`added courseInfo id=${courseInfoAdded.id}`)),
+            catchError(this.handleError<CourseInfo>('addCourseInfo'))
         );
     }
 

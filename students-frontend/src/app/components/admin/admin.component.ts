@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services';
+import { UserService, DataService } from '../../services';
 import { Http, Headers, Response } from '@angular/http';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CourseinfoAddComponent } from '../courseinfo-add/courseinfo-add.component';
+import { CourseInfo } from '../../models';
 
 @Component({
     selector: 'app-admin',
@@ -9,21 +12,24 @@ import { Router } from '@angular/router';
     styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-    admin = '';
 
-    constructor(private userService: UserService, private http: Http, private router: Router) {
+    courses!: CourseInfo[];
+
+    constructor(private userService: UserService, private modalService: NgbModal, private dataService: DataService) {
     }
 
     ngOnInit() {
-        if (!this.userService.isLogged()) {
-            this.router.navigateByUrl('/home');
-        }
-        const headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Authorization', 'Basic ' + btoa('server_basic_auth_uname:server_basic_auth_pwd'));
-
-        // tslint:disable-next-line:max-line-length
-        this.http.get('http://localhost:8080/private/admin', { headers: headers }).subscribe((data: Response) => this.admin = data.text());
+        this.dataService.getCourses().subscribe(data => this.courses = data);
     }
+
+    openModal(): boolean {
+        this.modalService.open(CourseinfoAddComponent);
+        return false;
+    }
+
+    // deleteCourse(ix: number)
+    // {
+        
+    // }
 
 }

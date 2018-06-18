@@ -3,7 +3,7 @@ import { Gradeable } from '../interfaces';
 import { CourseInfo } from './CourseInfo.model';
 
 export class Course implements Gradeable {
-    public id!: number;
+    public id?: number;
     public courseInfo: CourseInfo;
 
     public grade: number;

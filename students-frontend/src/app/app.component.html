@@ -15,7 +15,7 @@
             <li *ngIf="!userService.isLogged()" class="nav-item">
                 <a (click)="openModal()" class="nav-link" href="">Login</a>
             </li>
-            <li *ngIf="userService.getRole()=='ADMIN'" class="nav-item">
+            <li *ngIf="userService.getRole()===access.Admin" class="nav-item">
                 <a [routerLink]='["/admin"]' class="nav-link" href="#">Admin</a>
             </li>
         </ul>
