@@ -27,6 +27,10 @@ export class CoursesDataComponent implements OnInit {
         }
     }
 
+    getPortraitLink() {
+        return 'https://api.adorable.io/avatars/96/' + this.student.id;
+    }
+
     update(student: Student) {
         this.dataService.updateStudent(student).subscribe(data => console.log(`Updated student id...`));
     }

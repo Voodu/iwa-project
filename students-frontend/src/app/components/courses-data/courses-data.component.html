@@ -12,6 +12,7 @@
     <button class="btn btn-primary btn-block m-2" (click)="update(student)">
         Save courses
     </button>
+    <img id="contact-avatar" [attr.src]="getPortraitLink()">
 </div>
 
 <app-grades-view *ngIf="selectedCourse" [course]="selectedCourse" class="p-2 d-block" (gradeChange)="updateAvg()"></app-grades-view>
