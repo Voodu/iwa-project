@@ -11,55 +11,19 @@ import java.util.List;
 public class Course {
     @Id
     @GeneratedValue
-    private long id;
+    public Long id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "courseinfo_id", nullable = false)
+    public CourseInfo courseInfo;
+
+    public Course(){}
+
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<CourseGrade> courseGrades = new ArrayList<>();
-    private double grade;
-    private long weight;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<CourseGrade> getCourseGrades() {
-        return courseGrades;
-    }
-
-    public void setCourseGrades(List<CourseGrade> courseGrades) {
-        this.courseGrades = courseGrades;
-    }
-
-    public double getGrade() {
-        return grade;
-    }
-
-    public void setGrade(double grade) {
-        this.grade = grade;
-    }
-
-    public long getWeight() {
-        return weight;
-    }
-
-    public void setWeight(long weight) {
-        this.weight = weight;
-    }
+    public List<CourseGrade> courseGrades = new ArrayList<>();
+    public double grade;
 }
 

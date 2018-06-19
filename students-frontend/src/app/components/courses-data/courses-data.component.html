@@ -2,17 +2,19 @@
     <div ngbDropdown>
         <button class="dropdown-toggle btn btn-secondary btn-block m-2" ngbDropdownToggle>Course</button>
         <div ngbDropdownMenu>
-            <button *ngFor="let course of student.courses" (click)=courseSelected(course) class="dropdown-item">{{course.name}}</button>
+            <button *ngFor="let course of student.courses" (click)=courseSelected(course) class="dropdown-item">{{course.courseInfo.name}}</button>
         </div>
     </div>
-    <button class="btn btn-success btn-block m-2" (click)="modal.open(student)">
-        Add Course
+    <button *ngIf="userService.getRole()===access.Admin" class="btn btn-success btn-block m-2" (click)="modal.open(student)">
+        Add courses
     </button>
 
     <button class="btn btn-primary btn-block m-2" (click)="update(student)">
         Save courses
     </button>
+    <img id="contact-avatar" [attr.src]="getPortraitLink()">
 </div>
 
-<app-grades-view [course]="selectedCourse" class="p-2 d-block" (gradeChange)="updateAvg()"></app-grades-view>
+<app-grades-view *ngIf="selectedCourse" [course]="selectedCourse" class="p-2 d-block" (gradeChange)="updateAvg()"></app-grades-view>
+
 <app-course-add #modal></app-course-add>

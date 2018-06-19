@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Student, Course } from '../../models';
-import { AverageService, DataService } from '../../services';
+import { AverageService, DataService, UserService } from '../../services';
+import { Access } from '../../enums';
 
 @Component({
     selector: 'app-courses-data',
@@ -9,9 +10,10 @@ import { AverageService, DataService } from '../../services';
 })
 export class CoursesDataComponent implements OnInit {
     @Input() student = new Student();
-    selectedCourse = new Course();
+    selectedCourse!: Course;
+    access = Access;
 
-    constructor(private avgService: AverageService, private dataService: DataService) {
+    constructor(private avgService: AverageService, private dataService: DataService, protected userService: UserService) {
     }
 
     courseSelected(course: Course): void {
@@ -25,12 +27,18 @@ export class CoursesDataComponent implements OnInit {
         }
     }
 
+    getPortraitLink() {
+        return 'https://api.adorable.io/avatars/96/' + this.student.id;
+    }
+
     update(student: Student) {
         this.dataService.updateStudent(student).subscribe(data => console.log(`Updated student id...`));
     }
 
     ngOnInit() {
-        this.selectedCourse = this.student.courses[0] || new Course();
-        this.updateAvg();
+        if (this.student && this.student.courses && this.student.courses.length > 0) {
+            this.selectedCourse = this.student.courses[0];
+            this.updateAvg();
+        }
     }
 }

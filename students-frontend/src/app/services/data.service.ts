@@ -1,22 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
-import { Student } from '../models';
+import { Student, Course, CourseInfo } from '../models';
 import { STUDENTS } from '../other';
 import { Observable, of } from 'rxjs';
 
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DataService {
 
-    private studentsUrl = 'http://localhost:8080/students';
+    private studentsUrl = 'http://localhost:8080/public/students';
+    private coursesUrl = 'http://localhost:8080/public/courses';
+    httpOptions = {
+        headers: this.createHeaders('')
+    };
 
-    constructor(private http: HttpClient) { }
+    createHeaders(token: string): HttpHeaders {
+        return new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Token': token
+        });
+    }
+
+    constructor(private http: HttpClient) {
+    }
+
+
+    setToken(token: string) {
+        this.httpOptions.headers = this.createHeaders(token);
+        console.log(this.httpOptions.headers.keys());
+    }
 
     getMockStudents(): Student[] {
         return STUDENTS;
@@ -24,31 +39,53 @@ export class DataService {
 
     /** GET students from the server */
     getStudents(): Observable<Student[]> {
-        return this.http.get<Student[]>(this.studentsUrl);
+        return this.http.get<Student[]>(this.studentsUrl, this.httpOptions);
+    }
+
+    /** GET courses from the server */
+    getCourses(): Observable<CourseInfo[]> {
+        return this.http.get<CourseInfo[]>(this.coursesUrl, this.httpOptions);
     }
 
     /** POST: add a new student to the server */
     addStudent(student: Student): Observable<Student> {
-        return this.http.post<Student>(this.studentsUrl, student, httpOptions).pipe(
+        student.id = undefined;
+        return this.http.post<Student>(this.studentsUrl, student, this.httpOptions).pipe(
             tap((studentAdded: Student) => this.log(`added student id=${studentAdded.id}`)),
             catchError(this.handleError<Student>('addStudent'))
+        );
+    }
+
+    /** POST: add a new course to the server */
+    addCourseInfo(courseInfo: CourseInfo): Observable<CourseInfo> {
+        courseInfo.id = undefined;
+        return this.http.post<CourseInfo>(this.coursesUrl, courseInfo, this.httpOptions).pipe(
+            tap((courseInfoAdded: CourseInfo) => this.log(`added courseInfo id=${courseInfoAdded.id}`)),
+            catchError(this.handleError<CourseInfo>('addCourseInfo'))
         );
     }
 
     /** GET student by id. Will 404 if id not found */
     getStudent(id: number): Observable<Student> {
         const url = `${this.studentsUrl}/${id}`;
-        return this.http.get<Student>(url).pipe(
+        return this.http.get<Student>(url, this.httpOptions).pipe(
             tap(_ => this.log(`fetched student id=${id}`)),
             catchError(this.handleError<Student>(`getStudent id=${id}`))
         );
+    }
+
+    getMe(): Observable<Student> {
+        const url = `${this.studentsUrl}/me`;
+        return this.http.get<Student>(url, this.httpOptions).pipe(
+            tap(_ => this.log(`fetched me`)),
+            catchError(this.handleError<Student>(`getMe`)));
     }
 
     /** DELETE: delete the student from the server */
     deleteStudent(student: Student | number): Observable<Student> {
         const id = typeof student === 'number' ? student : student.id;
         const url = `${this.studentsUrl}/${id}`;
-        return this.http.delete<Student>(url, httpOptions).pipe(
+        return this.http.delete<Student>(url, this.httpOptions).pipe(
             tap(_ => this.log(`deleted student id=${id}`)),
             catchError(this.handleError<Student>('deleteStudent'))
         );
@@ -56,7 +93,7 @@ export class DataService {
 
     /** PUT: update the student on the server */
     updateStudent(student: Student): Observable<any> {
-        return this.http.put(this.studentsUrl, student, httpOptions).pipe(
+        return this.http.put(this.studentsUrl, student, this.httpOptions).pipe(
             tap(_ => this.log(`updated student id=${student.id}`)),
             catchError(this.handleError<any>('updateStudent'))
         );
@@ -78,5 +115,23 @@ export class DataService {
 
     private log(message: string) {
         console.log('StudentService: ' + message);
+    }
+
+    fixModel(student: Student): Student {
+        for (const course of student.courses) {
+            course.weight = course.courseInfo.ECTS;
+        }
+        return student;
+    }
+
+    fixModels(students: Student[]): Student[] {
+        for (const student of students) {
+            if (student.courses) {
+                for (const course of student.courses) {
+                    course.weight = course.courseInfo.ECTS;
+                }
+            }
+        }
+        return students;
     }
 }

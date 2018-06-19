@@ -1,0 +1,13 @@
+<div *ngIf="userService.isLogged()">
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let course of courses let i=index">
+            <p>Name: {{course.name}}</p>
+            <p>ECTS: {{course.ECTS}}</p>
+        </li>
+    </ul>
+
+    <button class="btn btn-success" (click)="openModal()">Add course data</button>
+</div>
+<div *ngIf="!userService.isLogged()">
+    <p class="alert alert-danger">Not enough privileges to display content</p>
+</div>

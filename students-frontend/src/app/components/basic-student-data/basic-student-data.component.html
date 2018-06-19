@@ -3,9 +3,10 @@
             <img class="rounded" src="https://64px.com/64.png" alt="Template Photo">
         </div> -->
     <div class="p-2">
-        <div class="rounded">
-            <h2>{{student.name}}
-                <br/>{{student.surname}}</h2>
+        <!--<img id="contact-avatar" [attr.src]="getPortraitLink()">-->
+
+        <div id="student-data" class="rounded">
+            <h2>{{student.name}}<br/>{{student.surname}}</h2>
         </div>
         <div class="rounded">
             <h4>Index: {{student.id}}</h4>
@@ -15,6 +16,11 @@
         </div>
         <div class="rounded">
             <h4>Overall average: {{avgService.getAverage(student.courses).toFixed(2)}}</h4>
+        </div>
+        <div class="col">
+            <button (click)="deleteST()" class="btn btn-danger m-2">
+                Delete Student
+            </button>
         </div>
     </div>
 </div>

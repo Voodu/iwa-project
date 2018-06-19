@@ -1,0 +1,26 @@
+<h3>{{course.name}}</h3>
+<h6>Course average: {{avgService.getAverage(course.courseGrades).toFixed(2)}}</h6>
+
+
+<div class="infoText text-right d-inline-block">
+  Grade:
+  <div *ngFor="let grade of course.courseGrades" class="d-inline-block">
+    &nbsp;&nbsp;
+    <span class="dot">
+      <div class="text-center">{{grade.grade}}</div>
+    </span>
+
+  </div>
+  <br>
+  Weight:
+  <div *ngFor="let grade of course.courseGrades" class="d-inline-block">
+    &nbsp;&nbsp;
+    <span class="dot">
+      <div class="text-center">{{grade.weight}}</div>
+    </span>
+  </div>
+</div>
+
+<!-- do zmiany wyglad--->
+
+

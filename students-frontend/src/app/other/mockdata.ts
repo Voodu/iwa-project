@@ -1,4 +1,4 @@
-import { Student, Course, Grade } from '../models';
+import { Student, Course, Grade, CourseInfo } from '../models';
 
 export const STUDENTS: Student[] = [
     new Student(
@@ -8,7 +8,10 @@ export const STUDENTS: Student[] = [
             faculty: 'WEEIA',
             courses: [
                 new Course({
-                    name: 'Maths',
+                    courseInfo: new CourseInfo({
+                        name: 'Mathematics',
+                        ECTS: 6
+                    }),
                     weight: 3,
                     courseGrades: [
                         new Grade({ grade: 5, weight: 2 }),
@@ -17,7 +20,10 @@ export const STUDENTS: Student[] = [
                     ]
                 }),
                 new Course({
-                    name: 'Physics',
+                    courseInfo: new CourseInfo({
+                        name: 'Physics',
+                        ECTS: 6
+                    }),
                     weight: 3,
                     courseGrades: [
                         new Grade({ grade: 5, weight: 2 }),
@@ -35,7 +41,10 @@ export const STUDENTS: Student[] = [
             faculty: 'FTIMS',
             courses: [
                 new Course({
-                    name: 'Sports',
+                    courseInfo: new CourseInfo({
+                        name: 'Sports',
+                        ECTS: 6
+                    }),
                     weight: 3,
                     courseGrades: [
                         new Grade({ grade: 3, weight: 2 }),
@@ -44,7 +53,10 @@ export const STUDENTS: Student[] = [
                     ]
                 }),
                 new Course({
-                    name: 'OOP',
+                    courseInfo: new CourseInfo({
+                        name: 'OOP',
+                        ECTS: 6
+                    }),
                     weight: 3,
                     courseGrades: [
                         new Grade({ grade: 5, weight: 2 }),
@@ -62,7 +74,10 @@ export const STUDENTS: Student[] = [
             faculty: 'BINOŻ',
             courses: [
                 new Course({
-                    name: 'Maths',
+                    courseInfo: new CourseInfo({
+                        name: 'Mathematics',
+                        ECTS: 6
+                    }),
                     weight: 3,
                     courseGrades: [
                         new Grade({ grade: 5, weight: 2 }),
@@ -71,7 +86,10 @@ export const STUDENTS: Student[] = [
                     ]
                 }),
                 new Course({
-                    name: 'Biology',
+                    courseInfo: new CourseInfo({
+                        name: 'Biology',
+                        ECTS: 6
+                    }),
                     weight: 3,
                     courseGrades: [
                         new Grade({ grade: 3.5, weight: 2 }),
@@ -80,7 +98,10 @@ export const STUDENTS: Student[] = [
                     ]
                 }),
                 new Course({
-                    name: 'Chemistry',
+                    courseInfo: new CourseInfo({
+                        name: 'Chemistry',
+                        ECTS: 6
+                    }),
                     weight: 3,
                     courseGrades: [
                         new Grade({ grade: 5, weight: 2 }),

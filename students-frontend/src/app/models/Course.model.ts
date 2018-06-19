@@ -1,18 +1,24 @@
 import { Grade } from './Grade.model';
 import { Gradeable } from '../interfaces';
+import { CourseInfo } from './CourseInfo.model';
 
 export class Course implements Gradeable {
-    public id: number;
-    public name: string;
+    public id?: number;
+    public courseInfo: CourseInfo;
+
     public grade: number;
     public weight: number; // ECTS
     public courseGrades: Grade[];
 
     public constructor(init?: Partial<Course>) {
-        this.id = this.weight = 0;
-        this.name = 'no_data';
+        this.weight = 0;
+        this.courseInfo = new CourseInfo();
         this.courseGrades = [];
+        this.weight = this.courseInfo.ECTS;
         Object.assign(this, init);
+        if (this.courseInfo.ECTS !== 0) {
+            this.weight = this.courseInfo.ECTS;
+        }
         this.grade = this.avg();
     }
 

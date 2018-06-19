@@ -10,13 +10,26 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="form-group">
-            <label for="name">Course name:</label>
-            <input [(ngModel)]="newCourse.name" type="text" class="form-control" id="name">
+        <div ngbDropdown>
+            <button class="dropdown-toggle btn btn-secondary btn-block m-2" ngbDropdownToggle>Course</button>
+            <div ngbDropdownMenu class="w-100">
+                <button *ngFor="let course of courses" (click)=courseSelected(course) class="dropdown-item">
+                    <div class="d-flex">
+                        <div class="p-2 w-100">Name: {{course.name}}</div>
+                        <div class="p-2 flex-shrink-0">ECTS: {{course.ECTS}}</div>
+                    </div>
+                </button>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="ects">ECTS:</label>
-            <input [(ngModel)]="newCourse.weight" type="number" class="form-control" id="ects" min="0" max="15" step="1" (keydown)="false">
+        <div class="info" *ngIf="selectedCourse">
+            <div class="form-group">
+                <label for="name">Course name:</label>
+                <input type="text" class="form-control" id="name" value="{{selectedCourse.name}}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="ects">ECTS:</label>
+                <input type="number" class="form-control" id="ects" value="{{selectedCourse.ECTS}}" disabled>
+            </div>
         </div>
     </div>
     <div class="modal-footer">

@@ -1,8 +1,49 @@
+
+<form>
+  <div class="form-row" style="text-align: right">
+    <div class="col">
+      <button type="button" (click)="sortStudents(bysurname)" class="btn btn-primary">
+        Sort
+      </button>
+    </div>
+        <div class="radio">
+            <label class="container">by name<input type="radio" name="radio" (click)="radioChecked()"><span class="checkmark"></span></label>
+        </div>
+        <div class="radio">
+            <label class="container">by surname<input type="radio" name="radio" (click)="radioChecked()"> <span class="checkmark"></span></label>
+        </div>
+    <div class="col" class="col-xs-4">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="Input" placeholder="Searching..." #input required>
+        <div class="input-group-append">
+          <button *ngIf="!view" (click)="searching(input)" type="button" class="btn btn-info active">
+            <span class="glyphicon glyphicon-search"></span> Search
+          </button>
+          <button *ngIf="view" type="button" class="btn btn-info disabled">
+            <span class="glyphicon glyphicon-search"></span> Search
+          </button>
+        </div>
+        <div class="input-group-append">
+          <button *ngIf="view"(click)="viewAll()" type="button" class="btn btn-info active">ViewAll
+          </button>
+          <button *ngIf="!view" type="button" class="btn btn-info disabled">ViewAll
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 <div class="students-list">
-    <div *ngFor="let student of students" class="d-flex flex-row">
-        <app-basic-student-data [student]="student" class="p-2 d-flex"></app-basic-student-data>
-        <app-courses-data [student]="student" class="p-2 d-flex"></app-courses-data>
+    <div *ngFor="let student of students let i=index" class="d-flex flex-row">
+        <app-basic-student-data *ngIf="userService.getRole()===access.Admin || userService.getRole()===access.Professor" [student]="student" class="p-2 d-flex"
+        (deleteEvent)="deleteStudent(i)"></app-basic-student-data>
+        <app-guest-student-list *ngIf="userService.getRole()===access.Guest" [student]="student" class="p-2 d-flex"></app-guest-student-list>
+        <app-student-view *ngIf="userService.getRole()===access.Student" [student]="student" class="p-2 d-flex"></app-student-view>
+
+      <app-student-grades-view *ngIf="userService.getRole()===access.Student" [student]="student" class="p-2 d-flex"></app-student-grades-view>
+      <app-courses-data *ngIf="userService.getRole()===access.Admin || userService.getRole()===access.Professor" [student]="student" class="p-2 d-flex"></app-courses-data>
+
     </div>
 </div>
-<button class="btn btn-warning btn-block" (click)="modal.open(students)">Add student</button>
+<button *ngIf="userService.getRole()===access.Admin || userService.getRole()===access.Professor" class="btn btn-warning btn-block" (click)="modal.open(students)">Add student</button>
 <app-student-add #modal></app-student-add>
